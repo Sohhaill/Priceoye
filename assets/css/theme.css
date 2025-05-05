@@ -1,0 +1,14 @@
+:root {
+    --theme-bg-color: #48afff;
+    --White-btn-bg: #fafafa;
+    --White-btn-txt: black;
+  }
+  .themebgsh {
+    background-color: var(--theme-bg-color);
+  }
+  
+  .whitebtn {
+    background-color: var(--White-btn-bg) !important;
+    color: var(--White-btn-txt) !important;
+  } 
+  

@@ -1,0 +1,158 @@
+
+body {
+  font-family: "Open Sans", sans-serif;
+  background-color: #f1f3f6;
+}
+html {
+  margin: unset !important;
+}
+
+input#s {
+  background: white;
+  padding: 10px 6px;
+}
+input#s {
+  background: white;
+  padding: 10px 6px;
+  border-radius: 8px;
+  color: #748a98;
+  height: 52px;
+}
+.container {
+  max-width: 1240px !important;
+  margin: auto !important;
+  padding: 0px 1rem !important;
+}
+input#s {
+  background: white;
+  padding: 10px 6px;
+  border-radius: 8px;
+  color: #748a98;
+  width: 100%;
+  height: 52px;
+}
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-family: swiper-icons;
+  font-size: 15px !important;
+  text-transform: none !important;
+  letter-spacing: 0;
+  font-variant: initial;
+  line-height: 1;
+  background: #00000082;
+  padding: 11px 15px;
+  color: white;
+  border-radius: 2px !important;
+}
+.searchform {
+  width: 100%;
+  max-width: 418px;
+}
+input#s::placeholder {
+  content: "fdsfdsf";
+}
+form#searchform div {
+  display: flex;
+}
+input#searchsubmit {
+  color: white;
+  margin-left: 12px;
+}
+
+.cat_slider .swiper-slide:hover {
+  background: rgba(215, 217, 219, 0.3);
+  border-bottom: 3px solid #48afff;
+}
+.cat_slider .swiper-button-disabled {
+  opacity: 0.35;
+  cursor: auto;
+  pointer-events: none;
+  display: none !important;
+}
+.seasongrid .swiper-slide:nth-child(odd) {
+  grid-row: 1;
+}
+.seasongrid .swiper-slide:nth-child(even) {
+  grid-row: 2;
+}
+.wirlessairbuds {
+  background: url(https://static.priceoye.pk/images/categories/section-earbuds-bg-md.png)
+    left top / cover no-repeat;
+}
+.smartwatches {
+  background: url(https://static.priceoye.pk/images/categories/section-smart-watches-bg-md.png)
+    left top / cover no-repeat;
+}
+
+.bestsellerinner {
+  display: grid;
+  grid-template-columns: 41% 28% 28%;
+  gap: 15px;
+}
+
+.griditemsbest {
+  display: block;
+}
+.griditemsbest:first-child .nameandimage.flex {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.griditemsbest:first-child {
+  grid-row: span 2;
+}
+.griditemsbest:first-child .home-badges {
+  right: 82px;
+  top: 44px;
+}
+.griditemsbest:first-child p.font-\[600\].text-\[13px\] {
+  margin-bottom: 30px;
+}
+.griditemsbest:first-child .best_price.w-full {
+  margin-top: 30px;
+}
+.griditemsbest:first-child img.m-\[auto\] {
+  width: 342px !important;
+  height: 357px !important;
+}
+
+.item-inner {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+@media (max-width: 900px) {
+  .bestsellerinner {
+    display: grid;
+    grid-template-columns: 54% 46%;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchform {
+    width: 100%;
+    max-width: 216px !important;
+  }
+  input#s {
+    background: white;
+    padding: 10px 6px;
+    border-radius: 8px;
+    color: #748a98;
+    width: 100%;
+    height: 36px !important;
+  }
+  input#searchsubmit {
+    color: white;
+    margin-left: 12px;
+    display: none;
+  }
+}
+
+.themebgsh {
+  background-color: var(--theme-bg-color);
+}

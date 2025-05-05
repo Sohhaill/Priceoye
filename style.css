@@ -1,0 +1,8 @@
+
+:root {
+  --theme-bg-color: #48afff;
+}
+.themebgsh{
+
+ background-color: var(--theme-bg-color);
+}
