@@ -21,10 +21,10 @@ $product = wc_get_product( $product_id );
 
 <div class="singleproductmain bg-white">
     <div class="container !py-[30px] !my-[15px] relative">
-        <div class="singleproductinner flex gap-[40px]">
+        <div class="singleproductinner flex flex-col gap-[40px] md:!flex-row">
  
 
-            <div class="product_gallery w-[40%]">
+            <div class="product_gallery w-[100%] md:w-[40%]">
         <div class="swiper product_galleryslider">
             <div class="swiper-wrapper">
             <?php 
@@ -57,21 +57,21 @@ $galleryimageurl = wp_get_attachment_image_url($galleryimage , 'full');
     $viewall = wp_get_attachment_image_url($view , 'full');
     ?>
     <div class="crousal mr-[10px] border border-[#dbdbdb] rounded-[3px] p-[5px]">
-    <img class="object-cover" src="<?php echo esc_url( $viewall ); ?>" alt="" width="54" height="54">
+    <img class="object-cover periview_images" src="<?php echo esc_url( $viewall ); ?>" alt="" width="54" height="54">
    </div>
     <?php endforeach?>
 
-        </div>
+        </div> 
             </div>
 
             <div class="productright">
-                <div class="flex items-center justify-between" >
+                <div class="flex items-center justify-between gap-[12px]" >
                 <h1 class="text-[20px] text-black font-[600]"><?php echo get_the_title(); ?></h1>
                 <img src="https://static.priceoye.pk/images/product-detail/po-retailer-label.svg" alt="samsung-label" class="brand-label ml-auto">
                 </div>
                 <div class="product-price mt-[15px]">
                    
-                    <div class="availanility flex justify-between w-[456px]">
+                    <div class="availanility flex justify-between ">
                     <p class="text-[#909090] text-[14px]">Priceoye Price</p>
                         <div class="flex flex-col" >
                     <span class="summary-price-label text-[14px] text-[#909090]"> Availability </span>
@@ -130,8 +130,7 @@ foreach($variations as $single):
     $singlevareintregular = $single['display_regular_price'];
     $singlevariationid= $single['variation_id'];
     $stockstatus= $single['availability_html'];
-   
-   
+  
     ?>
 
 <div class="singlevariant_color flex justify-center items-center flex-col border !border-[2px] border-[#d9d9d9] rounded-[8px] p-[5px] w-[80px] h-[93px] cursor-pointer select-color" 
@@ -159,10 +158,10 @@ foreach($variations as $single):
 </form>
 
 <div id="cart_messagewrap" class="opacity-0 transition-opacity duration-500 flex w-fit px-[20px] py-[10px] gap-[20px] border border-[#0000002b] rounded items-center mt-[15px]">
-<h1 id="cart-message" class="opacity-0 transition-opacity duration-500 text-green-600 text-lg font-semibold">
+<h1 id="cart-message" class="opacity-0 transition-opacity duration-500 text-[#48afff] text-[13px] md:text-[17px] text-lg font-semibold">
     Item added to cart Successfully!
 </h1>
-<a id="viewcartajax"  class="opacity-0 transition-opacity duration-500 underline" href="/cart" >View Cart</a>
+<a id="viewcartajax"  class="opacity-0 text-[12px] font-bold bg-[#48afff] px-[9px] py-[4px] rounded-[17px] text-white  transition-opacity duration-500 cursor-pointer " href="/cart" >View Cart</a>
 </div>
 <script>
     function numberWithCommas(x) {
@@ -304,9 +303,9 @@ document.getElementById('add-to-cart-button').addEventListener('click', function
                     $product_id = $product->get_id();                
                  $productstock = wc_get_product($variant_id); 
                  $selectsaleprice = $variant['display_price'];
-                 $stockstatus= $single['availability_html'];
+                 $stockstatus= $variant['availability_html'];
                  $selectregularprice = $variant['display_regular_price'];
-
+            
 
                 ?>
                     <div class="storage_variant flex justify-center items-center flex-col border border-[2px] border-[#d9d9d9] rounded-[8px] p-[8px]   cursor-pointer select-storage" 
@@ -318,6 +317,7 @@ document.getElementById('add-to-cart-button').addEventListener('click', function
                         data-regular_price="<?php echo esc_attr( $selectregularprice ); ?>"
                         stock-status="<?php echo esc_attr($stockstatus); ?>"
                          data-attributes='<?php echo json_encode( $variant['attributes'] ); ?>'>
+                        
                         <h1 class="text-[12px] text-[#07121b66] text-center font-semibold"><?php echo esc_html( $variant_title ); ?></h1>
                     </div>
                 <?php endforeach; 
@@ -334,14 +334,14 @@ document.getElementById('add-to-cart-button').addEventListener('click', function
     <input type="hidden" name="product_id" value="<?php echo esc_attr( $product->get_id() ); ?>">
     <div id="attributes-container"></div>
 
-    <button type="button" class="bg-[#f88b2a] w-[195px] text-white text-[12px] px-[20px] py-[10px] cursor-pointer rounded hidden" id="add-to-cart-button">Add to Cart</button>
+    <button type="button" class="bg-[#f88b2a] w-[195px] text-white text-[12px] px-[20px] py-[10px] cursor-pointer rounded " id="add-to-cart-button">Add to Cart</button>
 </form>
 
 <div id="cart_messagewrap" class="opacity-0 transition-opacity duration-500 flex w-fit px-[20px] py-[10px] gap-[20px] border border-[#0000002b] rounded items-center mt-[15px]">
-<h1 id="cart-message" class="opacity-0 transition-opacity duration-500 text-green-600 text-lg font-semibold">
+<h1 id="cart-message" class="opacity-0 transition-opacity duration-500 text-[#48afff] text-[13px] md:text-[17px] text-lg font-semibold">
     Item added to cart Successfully!
 </h1>
-<a id="viewcartajax"  class="opacity-0 transition-opacity duration-500 underline" href="/cart" >View Cart</a>
+<a id="viewcartajax"  class="opacity-0 text-[12px] font-bold bg-[#48afff] px-[9px] py-[4px] rounded-[17px] text-white  transition-opacity duration-500 cursor-pointer " href="/cart" >View Cart</a>
 </div>
 
    

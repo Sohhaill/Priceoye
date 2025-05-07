@@ -31,6 +31,32 @@ breakpoints: {
 
 });
 
+const swiper1 = new Swiper('.crazyslider', {
+       
+  slidesPerView: 4.5,
+  spaceBetween: 15,
+  
+
+breakpoints: {
+300:{
+  slidesPerView: 1.5,
+  spaceBetween: 15,
+},
+640: {
+  slidesPerView: 2.5,
+  spaceBetween: 15,
+},
+768: {
+  slidesPerView: 3.5,
+  spaceBetween: 15,
+},
+1024: {
+  slidesPerView: 4.5,
+  spaceBetween: 15,
+},
+},
+
+});
 
 
 // product gallery sldier
@@ -53,7 +79,22 @@ const swiper4 = new Swiper('.product_galleryslider', {
       type: 'fraction'
      }
      });
+     document.querySelectorAll('.crousal').forEach(periview=>{
 
+     periview.addEventListener('click',()=>{
+      const periviewimage = periview.querySelector('periview_images');
+  
+      const productslides= document.querySelectorAll('.product_galleryslider .swiper-slide');
+      productslides.forEach((slide, index) =>{
+       const productimages = slide.querySelector('img.product_images');
+       if(productimages && productimages.src === periviewimage){
+        swiper4.slideTo(index);
+       }
+      }
+     )});
+
+
+     });
      document.querySelectorAll('.variant_color, .singlevariant_color').forEach(variant => {
       variant.addEventListener('click', () => {
         const variantImageUrl = variant.getAttribute('data-image');
@@ -124,8 +165,11 @@ dropdownbutton.addEventListener("click", ()=>{
 
 menuslider.classList.toggle("opacity-0");
 menuslider.classList.toggle("opacity-100");
-// menuslider.classList.toggle("w-[0px]");
-// menuslider.classList.toggle("w-full");
+menuslider.classList.toggle("z-[-1]");
+menuslider.classList.toggle("z-[100]");
+menuslider.classList.toggle("w-full");
+
+
 hamburgers.classList.toggle("w-[0px]");
 hamburgers.classList.toggle("w-[358px]")
 blue_bg.classList.toggle("py-[0px]");
@@ -144,6 +188,7 @@ closebtn.addEventListener("click", ()=>{
   hamburgers.classList.toggle("w-[358px]")
   blue_bg.classList.toggle("py-[0px]");
   blue_bg.classList.toggle("py-[60px]");
+  menuslider.classList.toggle("w-full");
   blue_bg.classList.toggle("px-[0px]");
   blue_bg.classList.toggle("px-[30px]");
   menu_below.classList.toggle("p-[0px]");
@@ -198,15 +243,19 @@ document.querySelectorAll('.select-storage').forEach(function(element) {
         var salePrice = this.getAttribute('data-sale_price');
         var regularPrice = this.getAttribute('data-regular_price');
         var attributes = JSON.parse(this.getAttribute('data-attributes'));
-        var getstockstatus = this.getAttribute('stock-status');
-        var stock_status= document.getElementById('stock-status');
-                
-        if (getstockstatus && getstockstatus.trim() !== "") {
-    stock_status.innerText = 'Out of stock'; 
-    stock_status.style.color = 'red'; 
+        var getstockstatus1 = this.getAttribute('stock-status');
+        var stock_status1= document.getElementById('stock-status');
+                var addtocartbtnnone = document.getElementById('add-to-cart-button');
+        if (getstockstatus1 && getstockstatus1.trim() !== "") {
+    stock_status1.innerText = 'Out of stock'; 
+    stock_status1.style.color = 'red'; 
+    addtocartbtnnone.style.opacity = '0.3';
+    addtocartbtnnone.style.pointerEvents = 'none';
 } else {
-    stock_status.innerText = 'In stock'; 
-    stock_status.style.color = 'green';
+    stock_status1.innerText = 'In stock'; 
+    stock_status1.style.color = 'green';
+    addtocartbtnnone.style.opacity = '1';
+    addtocartbtnnone.style.pointerEvents = 'auto';
 }
        
         document.getElementById('selected-variation-id').value = variantId;
@@ -229,8 +278,7 @@ document.querySelectorAll('.select-storage').forEach(function(element) {
 
      
 
-        document.getElementById('add-to-cart-button').classList.remove('hidden');
-
+       
         document.querySelectorAll('.select-storage').forEach(function(el) {
             el.classList.remove('!border-[#48afff]', 'border-[2px]');
             el.classList.add('border-[#d9d9d9]');
@@ -314,13 +362,17 @@ document.getElementById('add-to-cart-button').addEventListener('click', function
         var getstockstatus = this.getAttribute('stock-status');
         var stock_status= document.getElementById('stock-status');
         document.getElementById('selected-variation-id').value = variantId;
-        
+        var addtocartbtnnone = document.getElementById('add-to-cart-button');
         if (getstockstatus && getstockstatus.trim() !== "") {
     stock_status.innerText = 'Out of stock'; 
-    stock_status.style.color = 'red'; 
+    stock_status.style.color = 'red';
+    addtocartbtnnone.style.opacity = '0.3';
+    addtocartbtnnone.style.pointerEvents = 'none'; 
 } else {
     stock_status.innerText = 'In stock'; 
     stock_status.style.color = 'green';
+    addtocartbtnnone.style.opacity = '1';
+    addtocartbtnnone.style.pointerEvents = 'auto';
 }
 
         document.getElementById('singleselectedsaleprice').innerHTML = (numberWithCommas(salePrice));

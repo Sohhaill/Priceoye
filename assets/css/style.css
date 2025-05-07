@@ -83,7 +83,24 @@ input#searchsubmit {
   background: url(https://static.priceoye.pk/images/categories/section-smart-watches-bg-md.png)
     left top / cover no-repeat;
 }
+.speaker{
+  background: url(https://static.priceoye.pk/images/categories/section-smart-watches-bg-md.png)
+    left top / cover no-repeat;
+}
+.Tablets{
+  background: url(https://static.priceoye.pk/images/categories/section-tablet-bg-md.png)
+    left top / cover no-repeat;
+}
 
+.Laptops{
+  background: url(https://static.priceoye.pk/images/categories/section-laptop-bg-md.png)
+  left top / cover no-repeat;
+  padding-bottom: 60px;
+}
+.power-banks{
+  background: url(https://static.priceoye.pk/images/categories/section-power-banks-bg-md.png)
+  left top / cover no-repeat;
+}
 .bestsellerinner {
   display: grid;
   grid-template-columns: 41% 28% 28%;
@@ -155,4 +172,37 @@ input#searchsubmit {
 
 .themebgsh {
   background-color: var(--theme-bg-color);
+}
+.swiper-pagination.gallerypagination.swiper-pagination-fraction.swiper-pagination-horizontal {
+  width: fit-content;
+  left: 85%;
+  background: #909090;
+  padding: 3px 10px;
+  border-radius: 8px;
+  color: white;
+  font-size: 12px;
+}
+.reason_info{
+  background: radial-gradient(25.65% 62.25% at 27.62% 50.2%, #48afff 21.57%, #0078d5 100%);
+}
+.reason_group{
+  display: grid
+  ;
+      grid-template-columns: 48% 48%;
+      gap: 13px;
+}
+.btn-checkout{
+  transition: all .3s ease-in-out;
+}
+
+.btn-checkout:hover{
+  background-color: #48AFFF;
+  color: white;
+}
+.remove_cart_item{
+  transition: all .3s ease-in-out;
+}
+.remove_cart_item:hover{
+  background-color: transparent;
+  color: red;
 }

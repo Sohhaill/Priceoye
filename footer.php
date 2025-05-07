@@ -18,7 +18,7 @@
                 <p class="text-[13px] text-[#07121b99]" >See Your Product</p>
             </div>
             <div class="footerbadge flex justify-between items-center flex-col">
-                <img class="mx-[12.4px] mb-[10px]" src="<?php echo get_template_directory_uri(  );?>/assets/img/download (2).svg" width="70">
+                <img class="mx-[12.4px] mb-[10px]" src="<?php echo get_template_directory_uri(  );?>/assets/img/clock.svg" width="70">
                 <h1 class="text-[14px] font-[600]" >Fast Delivery</h1>
                 <p class="text-[13px] text-[#07121b99]" >All Over Pakistan</p>
             </div>
@@ -61,11 +61,11 @@
         <div class="bottominner container !py-[18px] flex">
             <p class="text-[12px] text-white flex-[33%] " >Copyright © 2025 Priceoye.pk</p>
             <div class="social_icons flex items-center justify-center flex-[33%]  ">
-                <a class="mr-[10px]" ><img src="<?php echo get_template_directory_uri(  );?>/assets/img/download (4).svg" width="27"></a>
-                <a class="mr-[10px]" ><img src="<?php echo get_template_directory_uri(  );?>/assets/img/download (4).svg" width="27"></a>
-                <a class="mr-[10px]" ><img src="<?php echo get_template_directory_uri(  );?>/assets/img/download (4).svg" width="27"></a>
-                <a class="mr-[10px]" ><img src="<?php echo get_template_directory_uri(  );?>/assets/img/download (4).svg" width="27"></a>
-                <a class="mr-[10px]" ><img src="<?php echo get_template_directory_uri(  );?>/assets/img/download (4).svg" width="27"></a>
+                <a href="https://www.youtube.com/channel/UCeUP4RmLCdKOXTdY9DRmR3w" class="mr-[10px]" ><img src="<?php echo get_template_directory_uri(  );?>/assets/img/download (4).svg" width="27"></a>
+                <a href="https://www.facebook.com/PriceOye.pk/" class="mr-[10px]" ><img src="https://static.priceoye.pk/images/social-fb.svg" width="27"></a>
+                <a href="https://www.instagram.com/priceoye.pk/" class="mr-[10px]" ><img src="https://static.priceoye.pk/images/social-instagram.svg" width="27"></a>
+                <a href="https://www.tiktok.com/@priceoye.pk" class="mr-[10px]" ><img src="https://static.priceoye.pk/images/tiktok.svg" width="27"></a>
+                <a href="https://www.linkedin.com/company/priceoye?originalSubdomain=pk" class="mr-[10px]" ><img src="	https://static.priceoye.pk/images/linkedin.svg" width="27"></a>
             </div>
         </div>
     </div>

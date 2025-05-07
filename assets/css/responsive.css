@@ -47,9 +47,18 @@ input#searchsubmit {
 ;
     grid-template-columns: 1fr 1fr;
 }
+.shopmore{
+  display: flex
+  ;
+          width: 100%;
+          max-width: 320px;
+          margin: auto;
+          flex-wrap: wrap;
+}
 }
 .container{
     max-width: 1240px !important;
     margin: auto !important;
     padding: 0px 1rem !important;
 }
+
