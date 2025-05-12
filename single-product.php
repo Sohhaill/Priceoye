@@ -56,7 +56,7 @@ $galleryimageurl = wp_get_attachment_image_url($galleryimage , 'full');
         <?php foreach($galleryimages as $view) :
     $viewall = wp_get_attachment_image_url($view , 'full');
     ?>
-    <div class="crousal mr-[10px] border border-[#dbdbdb] rounded-[3px] p-[5px]">
+    <div class="crousal mr-[10px] border border-[#dbdbdb] rounded-[3px] p-[5px]  cursor-pointer">
     <img class="object-cover periview_images" src="<?php echo esc_url( $viewall ); ?>" alt="" width="54" height="54">
    </div>
     <?php endforeach?>
@@ -107,6 +107,7 @@ $galleryimageurl = wp_get_attachment_image_url($galleryimage , 'full');
 
 
 <?php if (empty($storage)) : ?>
+
     <div class="vareintprices flex flex-col">
                         
                         <div class="flex items-start" >
@@ -130,6 +131,7 @@ foreach($variations as $single):
     $singlevareintregular = $single['display_regular_price'];
     $singlevariationid= $single['variation_id'];
     $stockstatus= $single['availability_html'];
+   
   
     ?>
 
@@ -360,5 +362,125 @@ document.getElementById('add-to-cart-button').addEventListener('click', function
         </div>
     </div>
 </div>
+
+
+
+
+<?php 
+$description = $product->get_description(); 
+
+if ( !empty( $description ) ) : ?>
+<div class="description bg-white ">
+    <div class="product-description container mt-[20px] text-[14px] leading-[22px] text-[#404040]">
+        <h3 class="text-[16px] font-semibold text-black py-[50px]" >Highlighs</h3>
+        <?php echo wpautop( $description ); ?>
+    </div>
+    </div>
+<?php endif; ?>
+
+<section>
+<?php
+$parent = get_term_by('slug', 'topcategory', 'product_cat');
+$children = get_terms('product_cat', array(
+    
+    'parent' => $parent->term_id,
+    'hide_empty' => false,
+    'number' => 4
+));
+?>
+
+    <div class="container">
+    <h1 class="text-[18px] font-[600] text-black !pt-[60px] !pb-[30px]" >Shop More Categories</h1>
+    </div>
+    <div class="bg-[#f9dcff] py-[30px]">
+<div class="shopmore container flex justify-center items-center gap-[15px]">
+<?php foreach ($children as $child) :
+    $thumbnail_id = get_term_meta($child->term_id, 'thumbnail_id', true);
+    $image_url = wp_get_attachment_url($thumbnail_id);
+    $shop_page_url = get_permalink( get_page_by_path( 'category-shop' ) ); 
+    $term_link = add_query_arg( 'category', $child->slug, $shop_page_url );
+
+
+?>
+ <a href="<?php echo esc_url($term_link); ?>">
+    <div class="bg-white morecategories border-[2px] border-[#8804a6] w-[120px] rounded-[11px] ">
+        <img class="m-auto" src="<?php echo esc_url($image_url); ?>" height="85" width="85" >
+        <div class="title bg-[#8804a6] ">
+        <h1 class="text-white text-center text-[13px] pb-[16px] pt-[3px]" ><?php echo esc_html($child->name); ?></h1>
+    </div>
+    </div>
+    </a>
+   <?php endforeach?>
+</div>
+    </div>
+</section>
+<section class="Crazydeal mt-[30px] pb-[60px]">
+<?php
+global $product;
+
+
+$current_product_id = $product->get_id();
+
+$args = array(
+    'post_type' => 'product',
+    'posts_per_page' => 5,
+    'post__not_in' => array($current_product_id),
+    'orderby' => 'rand',
+    'post_status' => 'publish',
+);
+
+$products = new WP_Query($args);
+
+if ($products->have_posts()) :
+    $posts_array = $products->posts;
+    ?>
+<div class="springgrid container !pt-[60px] !pb-[30px]">
+    <div class="viewall text-right pb-[30px] flex justify-between items-center">
+        <h1 class="text-[18px] font-[600] text-black">
+            <span class="text-[#f53d3d]">Recommended</span> For You
+        </h1>
+    </div>
+
+    <div class="swiper crazyslider">
+        <div class="swiper-wrapper">
+        <?php foreach ($posts_array as $post) :
+            setup_postdata($post);
+            global $product;
+
+            $image = get_the_post_thumbnail_url($post->ID, 'medium');
+            $name = get_the_title($post->ID);
+        ?>
+            <div class="swiper-slide">
+                <div class="mainslide">
+                    <div class="topgrid relative bg-white flex justify-center items-center flex-col p-[20px] rounded-[5px]">
+                        <a href="<?php echo get_permalink($post->ID); ?>">
+                            <img class="object-fill !h-[120px]" src="<?php echo esc_url($image); ?>" width="120">
+                        </a>
+                        <p class="name font-[600] text-[13px] mt-[15px] mb-[10px] text-[#404040] h-[32px] self-start">
+                            <?php echo esc_html($name); ?>
+                        </p>
+                        <p class="text-[12px] text-[#07121b66] flex flex-col self-start">
+                            <?php echo $product->get_price_html(); ?>
+                        </p>
+                        <div class="regularprice self-end flex justify-end w-full">
+                            <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]">
+                                Special Deal
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+
+<?php
+else :
+    echo '<p>No recommended products found.</p>';
+endif;
+wp_reset_postdata();
+?>
+</section>
 
 <?php get_footer(); ?>

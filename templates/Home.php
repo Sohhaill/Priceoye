@@ -878,7 +878,7 @@ $children = get_terms('product_cat', array(
 
 
 ?>
- <a href="<?php echo esc_url($term_link); ?>">
+ <a class="rounded-[11px] " href="<?php echo esc_url($term_link); ?>">
     <div class="bg-white morecategories border-[2px] border-[#8804a6] w-[120px] rounded-[11px] ">
         <img class="m-auto" src="<?php echo esc_url($image_url); ?>" height="85" width="85" >
         <div class="title bg-[#8804a6] ">

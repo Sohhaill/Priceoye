@@ -95,6 +95,22 @@ const swiper4 = new Swiper('.product_galleryslider', {
 
 
      });
+     document.querySelectorAll('.periview_images').forEach(periview => {
+      periview.addEventListener('click', () => {
+        var oneperiview = periview.src;
+        
+    
+        const slidess = document.querySelectorAll('.product_galleryslider .swiper-slide');
+        slidess.forEach((slidee, index) => {
+          const productImage = slidee.querySelector('img.product_images');
+    
+          if (productImage && productImage.src === oneperiview) {
+            swiper4.slideTo(index);
+          }
+        });
+      });
+    });
+    
      document.querySelectorAll('.variant_color, .singlevariant_color').forEach(variant => {
       variant.addEventListener('click', () => {
         const variantImageUrl = variant.getAttribute('data-image');
