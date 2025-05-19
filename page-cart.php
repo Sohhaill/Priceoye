@@ -133,7 +133,7 @@ totalclasses.innerText= elments;
     });
 
    
-    document.getElementById('total_price').textContent = 'Rs ' + total.toLocaleString();
+    document.getElementById('total_price').textContent = 'Rss ' + total.toLocaleString();
     document.getElementById('Postage_price').textContent = 'Rs ' + total.toLocaleString();
     document.getElementById('grandtotal_price').textContent = 'Rs ' + total.toLocaleString();
 });

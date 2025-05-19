@@ -24,8 +24,8 @@ $children = get_terms('product_cat', array(
 <?php foreach ($children as $child) :
     $thumbnail_id = get_term_meta($child->term_id, 'thumbnail_id', true);
     $image_url = wp_get_attachment_url($thumbnail_id);
-    $shop_page_url = get_permalink( get_page_by_path( 'category-shop' ) ); 
-    $term_link = add_query_arg( 'category', $child->slug, $shop_page_url );
+    $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
+    $term_link = add_query_arg( 'category[]', $child->slug, $shop_page_url );
 
 
 ?>
@@ -61,13 +61,16 @@ $children = get_terms('product_cat', array(
             
             $banner_images= get_field('banner_slider');
           
-            
+           
             ?>
             <?php foreach ($banner_images as $image) :
-                
+          
             ?>
             <div class="swiper-slide banner_innerslider">
-    <img src="<?php echo esc_url($image['images']['url'])?>" class="w-full" >
+   <?php echo wp_get_attachment_image($image['images']['ID'], 'full', false, ['class' => 'w-full']); ?>
+
+
+
 </div>
 <?php endforeach?>
 
@@ -102,8 +105,8 @@ $args = array(
         ),
     ),
 );
-$shop_page_url = get_permalink( get_page_by_path( 'category-shop' ) ); 
-$shopall = add_query_arg( 'category', 'mobiles', $shop_page_url );
+ $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
+$shopall = add_query_arg( 'category[]', 'mobiles', $shop_page_url );
 $products = new WP_Query($args);
 
 if ($products->have_posts()) :
@@ -185,8 +188,8 @@ $args = array(
     ),
 );
 
-$shop_page_url = get_permalink( get_page_by_path( 'category-shop' ) ); 
-$speaker = add_query_arg( 'category', 'bluetooth-speaker', $shop_page_url );
+ $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
+$speaker = add_query_arg( 'category[]', 'bluetooth-speaker', $shop_page_url );
 $products = new WP_Query($args);
 
 if ($products->have_posts()) :
@@ -262,8 +265,8 @@ $args = array(
 );
 
 $products = new WP_Query($args);
-$shop_page_url = get_permalink( get_page_by_path( 'category-shop' ) ); 
-$wirelessall = add_query_arg( 'category', 'wireless-airbuds', $shop_page_url );
+ $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
+$wirelessall = add_query_arg( 'category[]', 'wireless-airbuds', $shop_page_url );
 if ($products->have_posts()) :
     $posts_array = $products->posts;
     ?>
@@ -277,7 +280,7 @@ if ($products->have_posts()) :
     <div class="swiper season_maingrid ">
         <div class="swiper-wrapper ">
         <?php foreach ($posts_array as $post) : 
-         $shop_page_url = get_permalink( get_page_by_path( 'category-shop' ) ); 
+         $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
         
 
 
@@ -337,6 +340,7 @@ wp_reset_query();
 
 
     ?>
+    
 <img class="w-full" src="<?php echo $installmentbanner['url'] ?>" >
 
 </section>
@@ -354,8 +358,8 @@ $args = array(
     ),
 );
 
-$shop_page_url = get_permalink( get_page_by_path( 'category-shop' ) ); 
-$watches = add_query_arg( 'category', 'smart-watches-2', $shop_page_url );
+ $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
+$watches = add_query_arg( 'category[]', 'smart-watches-2', $shop_page_url );
 $products = new WP_Query($args);
 
 if ($products->have_posts()) :
@@ -500,8 +504,8 @@ $args = array(
     ),
 );
 
-$shop_page_url = get_permalink( get_page_by_path( 'category-shop' ) ); 
-$speaker = add_query_arg( 'category', 'bluetooth-speaker', $shop_page_url );
+ $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
+$speaker = add_query_arg( 'category[]', 'bluetooth-speaker', $shop_page_url );
 $products = new WP_Query($args);
 
 if ($products->have_posts()) :
@@ -581,8 +585,8 @@ $args = array(
     ),
 );
 
-$shop_page_url = get_permalink( get_page_by_path( 'category-shop' ) ); 
-$speaker = add_query_arg( 'category', 'bluetooth-speaker', $shop_page_url );
+ $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
+$speaker = add_query_arg( 'category[]', 'bluetooth-speaker', $shop_page_url );
 $products = new WP_Query($args);
 
 if ($products->have_posts()) :
@@ -667,8 +671,8 @@ $args = array(
 );
 
 $products = new WP_Query($args);
-$shop_page_url = get_permalink( get_page_by_path( 'category-shop' ) ); 
-$wirelessall = add_query_arg( 'category', 'tablets', $shop_page_url );
+ $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
+$wirelessall = add_query_arg( 'category[]', 'tablets', $shop_page_url );
 if ($products->have_posts()) :
     $posts_array = $products->posts;
     ?>
@@ -682,7 +686,7 @@ if ($products->have_posts()) :
     <div class="swiper season_maingrid ">
         <div class="swiper-wrapper ">
         <?php foreach ($posts_array as $post) : 
-         $shop_page_url = get_permalink( get_page_by_path( 'category-shop' ) ); 
+         $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
         
 
 
@@ -700,7 +704,7 @@ if ($products->have_posts()) :
 <a  href="<?php echo get_permalink($post->ID); ?>">
         <img class="object-fill !h-[120px]" src="<?php echo esc_url($image); ?>" width="120">
         </a>
-        <p class="name font-[600] text-[13px] mt-[15px] mb-[10px] text-[#404040] h-[32px] self-start" ><?php echo esc_attr($name); ?></p>
+        <p class="name font-[600] text-[13px] leading-[14px] mt-[15px] mb-[10px] text-[#404040] h-[35px] self-start" ><?php echo esc_attr($name); ?></p>
         <p class="text-[12px] text-[#07121b66] flex flex-col self-start " ><?php echo $product->get_price_html(); ?></p>
         <div class="regularprice self-end flex justify-end w-full">
           
@@ -786,8 +790,8 @@ $args = array(
     ),
 );
 
-$shop_page_url = get_permalink( get_page_by_path( 'category-shop' ) ); 
-$speaker = add_query_arg( 'category', 'laptops', $shop_page_url );
+ $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
+$speaker = add_query_arg( 'category[]', 'laptops', $shop_page_url );
 $products = new WP_Query($args);
 
 if ($products->have_posts()) :
@@ -851,9 +855,34 @@ wp_reset_query();
 
 
 </div>
-
+<section class="shopby_price" >
+    <?php 
+     $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
+     $price1 = add_query_arg( 'price[]', 'below-15000', $shop_page_url );
+     $price2 = add_query_arg( 'price[]', '15000-25000', $shop_page_url );
+     $price3 = add_query_arg( 'price[]', '25000-40000', $shop_page_url );
+     $price4 = add_query_arg( 'price[]', '40000-60000', $shop_page_url );
+     $price5 = add_query_arg( 'price[]', '60000-80000', $shop_page_url );
+     $price6 = add_query_arg( 'price[]', '80000-100000', $shop_page_url );
+     $price7 = add_query_arg( 'price[]', '100000-150000', $shop_page_url );
+     $price8 = add_query_arg( 'price[]', 'above-150000', $shop_page_url );
+    ?>
+<div class="container">
+   <h1 class="text-[18px] font-[600] text-black pt-[60px] pb-[30px]" >Shop by Price</h1>
+   <div class="price_range grid grid-cols-4 gap-[13px]">
+    <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price1) ?>">Below Rs. 15,000</a>
+ <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price2) ?>">Rs. 15,000 - Rs. 25,000</a>
+    <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price3) ?>">Rs. 40,000 - Rs. 60,000</a>
+    <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price4) ?>">Rs. 40,000 - Rs. 60,000</a>
+    <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price5) ?>">Rs. 60,000 - Rs. 80,000</a>
+    <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price6) ?>">Rs. 80,000 - Rs. 100,000</a>
+    <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price7) ?>">Rs. 100,000 - Rs. 150,000</a>
+    <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price8) ?>">Above 150,000</a>
+      
+</div>
+</div>
 </section>
-
+</section>
 <section>
 <?php
 $parent = get_term_by('slug', 'topcategory', 'product_cat');
@@ -873,8 +902,8 @@ $children = get_terms('product_cat', array(
 <?php foreach ($children as $child) :
     $thumbnail_id = get_term_meta($child->term_id, 'thumbnail_id', true);
     $image_url = wp_get_attachment_url($thumbnail_id);
-    $shop_page_url = get_permalink( get_page_by_path( 'category-shop' ) ); 
-    $term_link = add_query_arg( 'category', $child->slug, $shop_page_url );
+    $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
+    $term_link = add_query_arg( 'category[]', $child->slug, $shop_page_url );
 
 
 ?>
@@ -904,8 +933,8 @@ $args = array(
     ),
 );
 
-$shop_page_url = get_permalink( get_page_by_path( 'category-shop' ) ); 
-$speaker = add_query_arg( 'category', 'power-banks', $shop_page_url );
+ $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
+$speaker = add_query_arg( 'category[]', 'power-banks', $shop_page_url );
 $products = new WP_Query($args);
 
 if ($products->have_posts()) :

@@ -47,6 +47,7 @@
       <div class="header_logins hidden lg:block ">
         <a href="<?php echo $Header_login['url'] ?>"
           class="py-[10px] text-[12px] px-[20px] text-[#48afff] bg-white text-center rounded-[4px] login tracking-widest mr-[10px]"><?php echo $Header_login['title'] ?></a>
+          
         <a href="<?php echo $Header_signup['url'] ?>"
           class="py-[10px] text-[12px] px-[20px] border border-[#fff] text-white bg-transparent text-center rounded-[4px] register tracking-widest"><?php echo $Header_signup['title'] ?></a>
       </div>
