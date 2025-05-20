@@ -340,8 +340,10 @@ wp_reset_query();
 
 
     ?>
-    
-<img class="w-full" src="<?php echo $installmentbanner['url'] ?>" >
+    <?php
+echo wp_get_attachment_image($installmentbanner['ID'], 'full', false, ['class' => 'w-full']);
+
+  ?>
 
 </section>
 <section class="smartwatches mt-[30px] pb-[60px] " >
@@ -353,13 +355,13 @@ $args = array(
         array(
             'taxonomy' => 'product_cat',
             'field'    => 'slug',
-            'terms'    => 'smart-watches-2',
+            'terms'    => 'smart-watches',
         ),
     ),
 );
 
  $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
-$watches = add_query_arg( 'category[]', 'smart-watches-2', $shop_page_url );
+$watches = add_query_arg( 'category[]', 'smart-watches', $shop_page_url );
 $products = new WP_Query($args);
 
 if ($products->have_posts()) :

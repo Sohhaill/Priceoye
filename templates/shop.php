@@ -6,10 +6,9 @@ get_header();
 ?>
 
 <?php
-$size = get_field('screen_size');
+
 
 $meta_query = [];
-$category_slug = sanitize_text_field($_GET['category'] ?? '');
 
 
 $meta_query = array('relation' => 'AND');
@@ -152,18 +151,64 @@ $query = new WP_Query($args);
 
 
 ?>
- <?php  if(($query->have_posts())): ?>
+
+      <?php 
+$first_category_slug = '';
+
+
+if (!empty($_GET['category']) && is_array($_GET['category'])): 
+    $first_category_slug = sanitize_text_field($_GET['category'][0]);
+        $term = get_term_by('slug', $first_category_slug, 'product_cat');
+        $Cat_banner = get_field('Cat_banner', 'product_cat_' . $term->term_id);
+        $brand_image = get_field('brand_images', 'product_cat_' . $term->term_id);
+        $brands = $brand_image['images'];
+       
+?>
+  <?php endif?>
+
+<div class="bg-white">
+<div class="container flex items-center justify-center branddiv">
+<form method="GET" class="brand_filter flex flex-wrap gap-4">
+  <?php 
+  $brand_images = get_field('brand_images', 'product_cat_' . $term->term_id);
+  
+  if (!empty($brand_images)) :
+      foreach ($brand_images as $row): 
+          $image = $row['images'];
+          $name = $row['name']; 
+          $is_active = (isset($_GET['brand[]']) && $_GET['brand[]'] === $name);
+  ?>
+    <button type="submit" name="brand[]" value="<?php echo esc_attr($name); ?>" 
+      class="hoverbrand border p-2 rounded <?php echo $is_active ? 'border-black' : 'border-transparent'; ?>">
+      <img src="<?php echo esc_url($image['url']); ?>" width="50" height="38" alt="<?php echo esc_attr($name); ?>" />
+    </button>
+  <?php 
+      endforeach;
+  endif;
+  ?>
+</form>
+
+ </div>
+</div>
+  <?php if (!empty($Cat_banner)): ?>
+<img class="w-full" src="<?php echo esc_url( $Cat_banner['url'] ) ?>" >
+<?php endif?>
+  <div class="categoryname p-[20px] m-[25px] mb-[0px] bg-white">
+<?php if (!empty($_GET['category']) && is_array($_GET['category'])): ?>
+  <h1 class="text-[16px] text-[black] font-semibold" ><span class="capitalize" ><?php echo $first_category_slug?></span> Price In Pakistan</h1>
+<?php else:?>
+ <h1 class="text-[16px] text-[black] font-semibold" >Shop All Products</h1>
+ <?php endif?>
+</div>
 <div class="shopallmain p-[25px] flex gap-[18px] items-start">
-
-
   <div class="filters bg-white p-[30px]">
     <form method="GET" class="filter_form">
       <div class="filteroption">
         <div   class="filter_tag flex justify-between down_arrow cursor-pointer">
           <h1 class="text-[14px] text-[#404040] font-semibold uppercase" >Set Your Price Range</h1>
-          <img src="https://static.priceoye.pk/images/caret.svg">
+          <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
         </div>
-        <div id="openfilter" class="filter_option mt-3 pb-[2.5rem] border-b border-[#dbdbdb]    border-b border-[#dbdbdb] ">
+        <div id="openfilter" class="filter_option hidden mt-3 pb-[2.5rem] border-b border-[#dbdbdb]    border-b border-[#dbdbdb] ">
           <div class="flex items-center gap-[5px]">
           <input type="checkbox" name="price[]" value="below-15000" id="check1" <?php if (isset($_GET['price']) && in_array('below-15000', $_GET['price'])) echo 'checked'; ?>>
           <label for="check1">Below Rs. 15,000</label><br>
@@ -179,9 +224,9 @@ $query = new WP_Query($args);
 <div class="filteroption ">
   <div   class="filter_tag flex justify-between down_arrow cursor-pointer pt-[20px]">
           <h1 class="text-[14px] text-[#404040] font-semibold uppercase" >Popularity</h1>
-          <img src="https://static.priceoye.pk/images/caret.svg">
+          <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
         </div>
-  <div class="filter_option mt-3 pb-[2.5rem] border-b border-[#dbdbdb]    border-b border-[#dbdbdb]  ">
+  <div class="filter_option mt-3 pb-[2.5rem] border-b border-[#dbdbdb]  hidden  border-b border-[#dbdbdb]  ">
   <input type="checkbox" name="popular" value="1" id="popular" <?php if (isset($_GET['popular'])) echo 'checked'; ?>>
   <label for="popular">Most Popular</label>
   </div>
@@ -191,9 +236,9 @@ $query = new WP_Query($args);
 <div class="filteroption">
    <div   class="filter_tag flex justify-between down_arrow cursor-pointer pt-[20px]">
           <h1 class="text-[14px] text-[#404040] font-semibold uppercase" >LCD Size</h1>
-          <img src="https://static.priceoye.pk/images/caret.svg">
+          <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
         </div>
-    <div class="filter_option mt-3 pb-[2.5rem] border-b border-[#dbdbdb]  ">
+    <div class="filter_option mt-3 pb-[2.5rem] border-b border-[#dbdbdb]  hidden">
   <input type="checkbox" name="lcd_size[]" value="5_inches" id="lcd1" <?php if (isset($_GET['lcd_size']) && in_array('5_inches', $_GET['lcd_size'])) echo 'checked'; ?>>
   <label for="lcd1">5 inch</label><br>
 
@@ -206,9 +251,9 @@ $query = new WP_Query($args);
 <div class="filteroption">
    <div   class="filter_tag flex justify-between down_arrow cursor-pointer pt-[20px]">
           <h1 class="text-[14px] text-[#404040] font-semibold uppercase" >Brand</h1>
-          <img src="https://static.priceoye.pk/images/caret.svg">
+          <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
         </div>
-    <div class="filter_option mt-3 pb-[2.5rem] border-b border-[#dbdbdb]  ">
+    <div class="filter_option mt-3 pb-[2.5rem] border-b border-[#dbdbdb] hidden ">
   <input type="checkbox" name="brand[]" value="Samsung" id="brand1" <?php if (isset($_GET['brand']) && in_array('Samsung', $_GET['brand'])) echo 'checked'; ?>>
   <label for="brand1">Samsung</label><br>
 <input type="checkbox" name="brand[]" value="Iphone" id="brand2" <?php if (isset($_GET['brand']) && in_array('Iphone', $_GET['brand'])) echo 'checked'; ?>>
@@ -221,6 +266,20 @@ $query = new WP_Query($args);
   <label for="brand5">Xiaomi</label><br>
    <input type="checkbox" name="brand[]" value="Dell" id="brand6" <?php if (isset($_GET['brand']) && in_array('Dell', $_GET['brand'])) echo 'checked'; ?>>
   <label for="brand6">Dell</label><br>
+    <input type="checkbox" name="brand[]" value="Joyroom" id="brand7" <?php if (isset($_GET['brand']) && in_array('Joyroom', $_GET['brand'])) echo 'checked'; ?>>
+  <label for="brand7">Joyroom</label><br>
+    <input type="checkbox" name="brand[]" value="Faster" id="brand8" <?php if (isset($_GET['brand']) && in_array('Faster', $_GET['brand'])) echo 'checked'; ?>>
+  <label for="brand8">Faster</label><br>
+    <input type="checkbox" name="brand[]" value="Baseus" id="brand9" <?php if (isset($_GET['brand']) && in_array('Baseus', $_GET['brand'])) echo 'checked'; ?>>
+  <label for="brand9">Baseus</label><br>
+    <input type="checkbox" name="brand[]" value="Sveston" id="Sveston" <?php if (isset($_GET['brand']) && in_array('Sveston', $_GET['brand'])) echo 'checked'; ?>>
+  <label for="Sveston">Sveston</label><br>
+    <input type="checkbox" name="brand[]" value="Zero" id="Zero" <?php if (isset($_GET['brand']) && in_array('Zero', $_GET['brand'])) echo 'checked'; ?>>
+  <label for="Zero">Zero</label><br>
+    <input type="checkbox" name="brand[]" value="Ssorted" id="Ssorted" <?php if (isset($_GET['brand']) && in_array('Ssorted', $_GET['brand'])) echo 'checked'; ?>>
+  <label for="Ssorted">Ssorted</label><br>
+    <input type="checkbox" name="brand[]" value="Dany" id="Dany" <?php if (isset($_GET['brand']) && in_array('Dany', $_GET['brand'])) echo 'checked'; ?>>
+  <label for="Dany">Dany</label><br>
   </div>
 </div>
 
@@ -228,9 +287,9 @@ $query = new WP_Query($args);
 <div class="filteroption">
    <div   class="filter_tag flex justify-between down_arrow cursor-pointer pt-[20px]">
           <h1 class="text-[14px] text-[#404040] font-semibold uppercase" >Category</h1>
-          <img src="https://static.priceoye.pk/images/caret.svg">
+          <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
         </div>
-    <div class="filter_option mt-3 pb-[2.5rem] ">
+    <div class="filter_option mt-3 pb-[2.5rem] hidden">
   <input type="checkbox" name="category[]" value="mobiles" id="category1" <?php if (isset($_GET['category']) && in_array('mobiles', $_GET['category'])) echo 'checked'; ?>>
   <label for="category1">Mobile</label><br>
   <input type="checkbox" name="category[]" value="tablets" id="category2" <?php if (isset($_GET['category']) && in_array('tablets', $_GET['category'])) echo 'checked'; ?>>
@@ -239,7 +298,7 @@ $query = new WP_Query($args);
   <label for="category3">Laptop</label><br>
   <input type="checkbox" name="category[]" value="wireless-airbuds" id="category4" <?php if (isset($_GET['category']) && in_array('wireless-airbuds', $_GET['category'])) echo 'checked'; ?>>
   <label for="category4">AirBuds</label><br>
-  <input type="checkbox" name="category[]" value="smart-watches-2" id="category5" <?php if (isset($_GET['category']) && in_array('smart-watches-2', $_GET['category'])) echo 'checked'; ?>>
+  <input type="checkbox" name="category[]" value="smart-watches" id="category5" <?php if (isset($_GET['category']) && in_array('smart-watches', $_GET['category'])) echo 'checked'; ?>>
   <label for="category5">Watches</label><br>
   <input type="checkbox" name="category[]" value="bluetooth-speaker" id="category6" <?php if (isset($_GET['category']) && in_array('bluetooth-speaker', $_GET['category'])) echo 'checked'; ?>>
   <label for="category6">Speaker</label><br>
@@ -251,7 +310,7 @@ $query = new WP_Query($args);
 
 
   </div>
-
+ <?php  if(($query->have_posts())): ?>
   <div class="grid grid-cols-4 gap-[9px] w-full">
     <?php while ($query->have_posts()) : $query->the_post(); global $product; ?>
       <?php $image_url = wp_get_attachment_image_url($product->get_image_id(), 'full'); ?>
@@ -264,31 +323,45 @@ $query = new WP_Query($args);
       </div>
     <?php endwhile; wp_reset_postdata(); ?>
   </div>
-  </div>
- <?php else : ?>
+   <?php else : ?>
   <div class="container"> <h1 class="text-[32px] mt-[50px] text-center" >No products available</h1></div>
  <?php endif?>
+  </div>
+
 
 
 
 <script>
-
-let downarrow = document.querySelectorAll('.down_arrow');
-
-downarrow.forEach(arrow => {
-  arrow.addEventListener('click', () => {
-    let filteroption = arrow.closest('.filteroption').querySelector('.filter_option');
-    filteroption.classList.toggle('hidden');
-    arrow.classList.toggle('downoption');
-  });
-});
-
-
-  document.querySelectorAll('.filter_form input[type=checkbox]').forEach(cb => {
-    cb.addEventListener('change', () => {
-      cb.closest('form').submit();
+  
+  document.querySelectorAll('.down_arrow').forEach(arrow => {
+    arrow.addEventListener('click', () => {
+      const filteroption = arrow.closest('.filteroption').querySelector('.filter_option');
+      filteroption.classList.toggle('hidden');
+      arrow.classList.toggle('downoption');
     });
   });
+
+ 
+  document.querySelectorAll('.filter_form input[type=checkbox]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      cb.closest('form')?.submit();
+    });
+  });
+
+ 
+  function showVisibleFilterOptions() {
+    document.querySelectorAll('.filteroption').forEach(filter => {
+      const checkboxes = filter.querySelectorAll('input[type=checkbox]');
+      const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+      if (anyChecked) {
+        filter.querySelector('.filter_option')?.classList.remove('hidden');
+      }
+    });
+  }
+
+
+  showVisibleFilterOptions();
 </script>
+
 
 <?php get_footer(); ?>

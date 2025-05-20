@@ -227,7 +227,7 @@ input#searchsubmit {
     color: #606060;
     margin-bottom: 5px;
 }
-.downoption img {
+.downoption .shop_dropdown {
     transform: scale(-1);
 }
 .price-bar:before {
@@ -250,4 +250,22 @@ input#searchsubmit {
 }
 .price-bar:hover:before {
     transform: scaleY(1);
+}
+.container.flex.items-center.branddiv{
+    padding: 10px 0px !important;
+}
+.hoverbrand img{
+      filter: grayscale(100%);
+      cursor: pointer;
+}
+
+.hoverbrand img:hover{
+
+filter: none;
+
+}
+
+.cat_headerbrand:hover{
+  background: rgba(116,138,152,.08);
+  transition: all 0.3s ease;
 }
