@@ -164,7 +164,9 @@ const swiper = new Swiper('.cattop', {
           nextEl: '.bannernav2',
           prevEl: '.bannernav1',
         },
-       
+        autoplay: {
+    delay: 3000,
+  },
         
         
         });
@@ -175,6 +177,8 @@ const hamburgers = document.querySelector(".hamburgers");
 const blue_bg = document.querySelector(".blue_bg");
 const menu_below = document.querySelector(".menu_below");
 const closebtn = document.querySelector(".close-icon");
+const allclose = document.querySelector(".menuslider");
+  var body = document.querySelector('body');
 
 
 dropdownbutton.addEventListener("click", ()=>{
@@ -184,8 +188,6 @@ menuslider.classList.toggle("opacity-100");
 menuslider.classList.toggle("z-[-1]");
 menuslider.classList.toggle("z-[100]");
 menuslider.classList.toggle("w-full");
-
-
 hamburgers.classList.toggle("w-[0px]");
 hamburgers.classList.toggle("w-[358px]")
 blue_bg.classList.toggle("py-[0px]");
@@ -194,10 +196,15 @@ blue_bg.classList.toggle("px-[0px]");
 blue_bg.classList.toggle("px-[30px]");
 menu_below.classList.toggle("p-[0px]");
 menu_below.classList.toggle("p-[30px]");
+setTimeout(() => {
+
+  body.style.overflow = 'hidden';
+}, 1000);
+
 });
 
 closebtn.addEventListener("click", ()=>{
-
+  body.style.overflow = 'scroll';
   menuslider.classList.toggle("opacity-0");
   menuslider.classList.toggle("opacity-100")
   hamburgers.classList.toggle("w-[0px]");
@@ -210,6 +217,8 @@ closebtn.addEventListener("click", ()=>{
   menu_below.classList.toggle("p-[0px]");
   menu_below.classList.toggle("p-[30px]");
   });
+
+ 
 
 // For Color And Varient Storage
 

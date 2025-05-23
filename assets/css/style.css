@@ -229,6 +229,7 @@ input#searchsubmit {
 }
 .downoption .shop_dropdown {
     transform: scale(-1);
+
 }
 .price-bar:before {
     content: "";
@@ -268,4 +269,89 @@ filter: none;
 .cat_headerbrand:hover{
   background: rgba(116,138,152,.08);
   transition: all 0.3s ease;
+}
+.trackorder:hover{
+color: #fff;
+    transform: translate(calc(30px / 3), 0px);
+  
+}
+.trackorder{
+    transition: .5s cubic-bezier(0.39, 0.58, 0.57, 1);
+}
+
+/* review css */
+h2.woocommerce-Reviews-title {
+    font-size: 15px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+.review  p.meta {
+    font-size: 13px !important;
+}
+.review  .description p {
+    font-size: 16px !important;
+}
+span#reply-title {
+    font-size: 18px;
+    margin-bottom: 6px !important;
+}
+.comment-form-rating {
+    font-size: 19px;
+    margin-top: 17px;
+}
+form#commentform label {
+    font-size: 19px;
+}
+textarea#comment {
+    border: 2px solid;
+    padding: 9px;
+    font-size: 16px;
+}
+input#submit {
+    padding: 13px 32px !important;
+    font-size: 17px !important;
+    background: #48AFFF !important;
+    color: white !important;
+}
+
+.user-rating-content {
+    position: absolute;
+    bottom: 46%;
+    left: 4%;
+    background-color: #fbf7eb;
+    color: #000;
+    padding: 3px 8px;
+    border-radius: 8px;
+    display: flex
+;
+    gap: 4px;
+    align-items: center;
+}
+img.avatar.avatar-30.photo {
+    border-radius: 28px !important;
+}
+.user-avatar:hover .logout {
+    display: block;
+    position: absolute;
+    bottom: -21px;
+}
+.logout{
+  display: none;
+      transition: all 0.3s ease-in;
+}
+.Featuretable tbody tr:not(:last-child) {
+  border-bottom: 1px solid #0000001f;
+}
+.features .containerr{
+  display: block;
+        column-count: 2;
+        flex: 0 0 80%;
+        max-width: 80%;
+}
+.features .containerr table{
+  break-inside: avoid;
+  
+}
+.Feature{
+      margin-bottom: calc(30px / 2);
 }

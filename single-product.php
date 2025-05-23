@@ -378,7 +378,7 @@ if ( !empty( $description ) ) : ?>
     </div>
 <?php endif; ?>
 
-<section>
+<section class="hidden" >
 <?php
 $parent = get_term_by('slug', 'topcategory', 'product_cat');
 $children = get_terms('product_cat', array(
@@ -414,6 +414,54 @@ $children = get_terms('product_cat', array(
 </div>
     </div>
 </section>
+
+<section class="features flex container">
+    <div class="containerr   my-[15px]">
+       <?php 
+$product_id = $product->get_id();
+$product_feature = get_field('featured', $product_id);
+
+
+?>
+
+
+<?php foreach($product_feature as $each):
+     $features = $each['features'];
+    $section_title = $features['section_title'];
+    $each_features = $features['each_features'];
+    ?>
+    <?php if(!empty($each_features)):?>
+<div class="Feature p-[10px] bg-white rounded-[4px] w-fit ">
+    <table class="Featuretable text-left bg-white">
+        <thead>
+            <tr>
+                <th class="pb-[10px] pt-[5px] text-black text-[12px] font-semibold" colspan="2">
+                    <?php echo esc_html($section_title); ?>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($each_features as $entry): ?>
+            <tr">
+                <th class="w-[150px] py-[6px] text-[#808080] text-[12px] font-semibold">
+                    <?php echo esc_html($entry['feature_heading']); ?>
+                </th>
+                <td class="py-[6px] w-[300px] text-black text-[12px] font-semibold">
+                    <?php echo esc_html($entry['feature_value']); ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<?php endif?>
+    <?php endforeach?>
+
+
+
+</div>
+</section>
+
 <section class="Crazydeal mt-[30px] pb-[60px]">
 <?php
 global $product;
@@ -481,6 +529,41 @@ else :
 endif;
 wp_reset_postdata();
 ?>
+</section>
+
+
+<section>
+    <div class="container">
+        <div class="woocommerce">
+            <?php if ( is_user_logged_in() ) : ?>
+                <?php comments_template(); ?>
+            <?php else : ?>
+                <div class="container !mb-[30px]">
+        <div class="woocommerce">
+            <?php
+            $comments = get_comments(array(
+                'post_id' => get_the_ID(),
+                'status' => 'approve',
+                'type'   => 'review' 
+            ));
+
+            if ($comments) {
+                echo '<ol class="commentlist">';
+                wp_list_comments(array(
+                    'callback' => 'woocommerce_comments', 
+                    'type'     => 'review'
+                ), $comments);
+                echo '</ol>';
+            } else {
+                echo '<p class="woocommerce-info">There are no reviews yet.</p>';
+            }
+            ?>
+        </div>
+    </div>
+                <p class="woocommerce-info text-[20px]">You must be <a href="/login">logged in</a> to leave a review.</p>
+            <?php endif; ?>
+        </div>
+    </div>
 </section>
 
 <?php get_footer(); ?>

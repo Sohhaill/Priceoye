@@ -19,6 +19,11 @@ function wotheme()
     array(),
     filemtime(get_template_directory() . '/assets/css/responsive.css')
 );
+// wp_enqueue_style('woocommerce', get_template_directory_uri() . '/assets/css/woocommerce.css'
+//     ,
+//     array(),
+//     filemtime(get_template_directory() . '/assets/css/woocommerce.css')
+// );
     wp_enqueue_style('ThemeCss', get_stylesheet_uri());
     wp_enqueue_style('swipercss', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
 
@@ -30,6 +35,22 @@ function wotheme()
 }
 add_action('wp_enqueue_scripts', 'wotheme');
 
+function load_wc_default_styles() {
+    if (is_product()) {
+        wp_enqueue_style(
+            'woocommerce-default',
+            plugins_url('woocommerce/assets/css/woocommerce.css'),
+            [],
+            null
+        );
+
+        // Optional: load comment reply script
+        if (get_option('thread_comments')) {
+            wp_enqueue_script('comment-reply');
+        }
+    }
+}
+add_action('wp_enqueue_scripts', 'load_wc_default_styles');
 
 // register menus
 

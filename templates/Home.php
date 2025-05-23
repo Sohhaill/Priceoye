@@ -2,7 +2,6 @@
 /*
 Template Name: Home Page
 */
-
 ?>
 
 <?php get_header()?>
@@ -138,12 +137,39 @@ if ($products->have_posts()) :
         <img src="<?php echo esc_url($image); ?>" width="120">
         </a>
         <p class="name font-[600] text-[13px] mt-[15px] mb-[10px] text-[#404040] h-[32px] self-start" ><?php echo esc_attr($name); ?></p>
+             <div class="user-rating-content"> 
+                <img src="https://static.priceoye.pk/images/stars.svg" alt="Rating Star" width="10" height="10">  
+                <span class="h6 bold font-bold text-[13px] text-black">
+                     <?php  echo esc_html( $product->get_average_rating() )?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">
+                <?php   echo esc_html( $product->get_review_count() ) ?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">Reviews</span>  
+            </div>
         <p class="text-[12px] text-[#07121b66] flex flex-col self-start " ><?php echo $product->get_price_html(); ?></p>
         <?php ?>
         <div class="regularprice self-end flex justify-end w-full">
           
+          <?php 
+          if ( $product->is_type('variable') ) {
+    $variations = $product->get_available_variations();
+    $variation_id = $variations[0]['variation_id'];
+    $variation = new WC_Product_Variation($variation_id);
+    $regular_price = (float) $variation->get_regular_price();
+    $sale_price = (float) $variation->get_sale_price();
+}
+
           
-                <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]" >30% OFF</p>
+if ( $regular_price > 0 && $sale_price > 0 && $sale_price < $regular_price ) {
+    $percentage = round( ( ( $regular_price - $sale_price ) / $regular_price ) * 100 );
+}
+          ?>
+              <?php if ($percentage > 0): ?>
+    <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]">
+        <?php echo esc_html($percentage); ?>% OFF
+    </p>
+<?php endif; ?>
            
         </div>
         <div class="home-badges !w-fit absolute top-[1px] right-[1px]">
@@ -219,11 +245,38 @@ if ($products->have_posts()) :
         <img class="object-fill !h-[120px]" src="<?php echo esc_url($image); ?>" width="120">
         </a>
         <p class="name font-[600] text-[13px] mt-[15px] mb-[10px] text-[#404040] h-[32px] self-start" ><?php echo esc_attr($name); ?></p>
+             <div class="user-rating-content"> 
+                <img src="https://static.priceoye.pk/images/stars.svg" alt="Rating Star" width="10" height="10">  
+                <span class="h6 bold font-bold text-[13px] text-black">
+                     <?php  echo esc_html( $product->get_average_rating() )?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">
+                <?php   echo esc_html( $product->get_review_count() ) ?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">Reviews</span>  
+            </div>
         <p class="text-[12px] text-[#07121b66] flex flex-col self-start " ><?php echo $product->get_price_html(); ?></p>
         <div class="regularprice self-end flex justify-end w-full">
           
+          <?php 
+          if ( $product->is_type('variable') ) {
+    $variations = $product->get_available_variations();
+    $variation_id = $variations[0]['variation_id'];
+    $variation = new WC_Product_Variation($variation_id);
+    $regular_price = (float) $variation->get_regular_price();
+    $sale_price = (float) $variation->get_sale_price();
+}
+
           
-                <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]" >30% OFF</p>
+if ( $regular_price > 0 && $sale_price > 0 && $sale_price < $regular_price ) {
+    $percentage = round( ( ( $regular_price - $sale_price ) / $regular_price ) * 100 );
+}
+          ?>
+              <?php if ($percentage > 0): ?>
+    <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]">
+        <?php echo esc_html($percentage); ?>% OFF
+    </p>
+<?php endif; ?>
            
         </div>
        
@@ -299,11 +352,38 @@ if ($products->have_posts()) :
         <img class="object-fill !h-[120px]" src="<?php echo esc_url($image); ?>" width="120">
         </a>
         <p class="name font-[600] text-[13px] mt-[15px] mb-[10px] text-[#404040] h-[32px] self-start" ><?php echo esc_attr($name); ?></p>
+             <div class="user-rating-content"> 
+                <img src="https://static.priceoye.pk/images/stars.svg" alt="Rating Star" width="10" height="10">  
+                <span class="h6 bold font-bold text-[13px] text-black">
+                     <?php  echo esc_html( $product->get_average_rating() )?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">
+                <?php   echo esc_html( $product->get_review_count() ) ?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">Reviews</span>  
+            </div>
         <p class="text-[12px] text-[#07121b66] flex flex-col self-start " ><?php echo $product->get_price_html(); ?></p>
         <div class="regularprice self-end flex justify-end w-full">
           
+          <?php 
+          if ( $product->is_type('variable') ) {
+    $variations = $product->get_available_variations();
+    $variation_id = $variations[0]['variation_id'];
+    $variation = new WC_Product_Variation($variation_id);
+    $regular_price = (float) $variation->get_regular_price();
+    $sale_price = (float) $variation->get_sale_price();
+}
+
           
-                <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]" >30% OFF</p>
+if ( $regular_price > 0 && $sale_price > 0 && $sale_price < $regular_price ) {
+    $percentage = round( ( ( $regular_price - $sale_price ) / $regular_price ) * 100 );
+}
+          ?>
+              <?php if ($percentage > 0): ?>
+    <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]">
+        <?php echo esc_html($percentage); ?>% OFF
+    </p>
+<?php endif; ?>
            
         </div>
         <div class="home-badges !w-fit absolute top-[1px] right-[1px]">
@@ -347,6 +427,12 @@ echo wp_get_attachment_image($installmentbanner['ID'], 'full', false, ['class' =
 
 </section>
 <section class="smartwatches mt-[30px] pb-[60px] " >
+
+
+<?php 
+
+
+?>
 <?php
 $args = array(
     'post_type' => 'product',
@@ -364,11 +450,14 @@ $args = array(
 $watches = add_query_arg( 'category[]', 'smart-watches', $shop_page_url );
 $products = new WP_Query($args);
 
+
+
 if ($products->have_posts()) :
     $posts_array = $products->posts;
     ?>
 <div class="springgrid container !pt-[60px] !pb-[30px]">
     <div class="viewall text-right pb-[30px] flex justify-between items-center">
+
         <h1 class="text-[18px] font-[600] text-white" >Latest Smart Watches</h1>
         <a href="<?php echo esc_url($watches) ?>" ><button class="cursor-pointer whitebtn font-[600]  border border-[#c1bdbd] py-[10px] px-[20px] text-[12px] text-center rounded-[4px]" >View All</button></a>
     </div>
@@ -392,11 +481,38 @@ if ($products->have_posts()) :
         <img class="object-fill !h-[120px]" src="<?php echo esc_url($image); ?>" width="120">
         </a>
         <p class="name font-[600] text-[13px] mt-[15px] mb-[10px] text-[#404040] h-[32px] self-start" ><?php echo esc_attr($name); ?></p>
+             <div class="user-rating-content"> 
+                <img src="https://static.priceoye.pk/images/stars.svg" alt="Rating Star" width="10" height="10">  
+                <span class="h6 bold font-bold text-[13px] text-black">
+                     <?php  echo esc_html( $product->get_average_rating() )?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">
+                <?php   echo esc_html( $product->get_review_count() ) ?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">Reviews</span>  
+            </div>
         <p class="text-[12px] text-[#07121b66] flex flex-col self-start " ><?php echo $product->get_price_html(); ?></p>
         <div class="regularprice self-end flex justify-end w-full">
           
+          <?php 
+          if ( $product->is_type('variable') ) {
+    $variations = $product->get_available_variations();
+    $variation_id = $variations[0]['variation_id'];
+    $variation = new WC_Product_Variation($variation_id);
+    $regular_price = (float) $variation->get_regular_price();
+    $sale_price = (float) $variation->get_sale_price();
+}
+
           
-                <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]" >30% OFF</p>
+if ( $regular_price > 0 && $sale_price > 0 && $sale_price < $regular_price ) {
+    $percentage = round( ( ( $regular_price - $sale_price ) / $regular_price ) * 100 );
+}
+          ?>
+              <?php if ($percentage > 0): ?>
+    <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]">
+        <?php echo esc_html($percentage); ?>% OFF
+    </p>
+<?php endif; ?>
            
         </div>
         <div class="home-badges !w-fit absolute top-[1px] right-[1px]">
@@ -538,11 +654,38 @@ if ($products->have_posts()) :
         <img class="object-fill !h-[120px]" src="<?php echo esc_url($image); ?>" width="120">
         </a>
         <p class="name font-[600] text-[13px] mt-[15px] mb-[10px] text-[#404040] h-[32px] self-start" ><?php echo esc_attr($name); ?></p>
+             <div class="user-rating-content"> 
+                <img src="https://static.priceoye.pk/images/stars.svg" alt="Rating Star" width="10" height="10">  
+                <span class="h6 bold font-bold text-[13px] text-black">
+                     <?php  echo esc_html( $product->get_average_rating() )?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">
+                <?php   echo esc_html( $product->get_review_count() ) ?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">Reviews</span>  
+            </div>
         <p class="text-[12px] text-[#07121b66] flex flex-col self-start " ><?php echo $product->get_price_html(); ?></p>
-        <div class="regularprice self-end flex justify-end w-full">
+         <div class="regularprice self-end flex justify-end w-full">
           
+          <?php 
+          if ( $product->is_type('variable') ) {
+    $variations = $product->get_available_variations();
+    $variation_id = $variations[0]['variation_id'];
+    $variation = new WC_Product_Variation($variation_id);
+    $regular_price = (float) $variation->get_regular_price();
+    $sale_price = (float) $variation->get_sale_price();
+}
+
           
-                <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]" >30% OFF</p>
+if ( $regular_price > 0 && $sale_price > 0 && $sale_price < $regular_price ) {
+    $percentage = round( ( ( $regular_price - $sale_price ) / $regular_price ) * 100 );
+}
+          ?>
+              <?php if ($percentage > 0): ?>
+    <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]">
+        <?php echo esc_html($percentage); ?>% OFF
+    </p>
+<?php endif; ?>
            
         </div>
         <div class="home-badges !w-fit absolute top-[1px] right-[1px]">
@@ -618,11 +761,38 @@ if ($products->have_posts()) :
         <img class="object-fill !h-[120px]" src="<?php echo esc_url($image); ?>" width="120">
         </a>
         <p class="name font-[600] text-[13px] mt-[15px] mb-[10px] text-[#404040] h-[32px] self-start" ><?php echo esc_attr($name); ?></p>
+             <div class="user-rating-content"> 
+                <img src="https://static.priceoye.pk/images/stars.svg" alt="Rating Star" width="10" height="10">  
+                <span class="h6 bold font-bold text-[13px] text-black">
+                     <?php  echo esc_html( $product->get_average_rating() )?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">
+                <?php   echo esc_html( $product->get_review_count() ) ?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">Reviews</span>  
+            </div>
         <p class="text-[12px] text-[#07121b66] flex flex-col self-start " ><?php echo $product->get_price_html(); ?></p>
         <div class="regularprice self-end flex justify-end w-full">
           
+          <?php 
+          if ( $product->is_type('variable') ) {
+    $variations = $product->get_available_variations();
+    $variation_id = $variations[0]['variation_id'];
+    $variation = new WC_Product_Variation($variation_id);
+    $regular_price = (float) $variation->get_regular_price();
+    $sale_price = (float) $variation->get_sale_price();
+}
+
           
-                <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]" >30% OFF</p>
+if ( $regular_price > 0 && $sale_price > 0 && $sale_price < $regular_price ) {
+    $percentage = round( ( ( $regular_price - $sale_price ) / $regular_price ) * 100 );
+}
+          ?>
+              <?php if ($percentage > 0): ?>
+    <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]">
+        <?php echo esc_html($percentage); ?>% OFF
+    </p>
+<?php endif; ?>
            
         </div>
        
@@ -707,11 +877,38 @@ if ($products->have_posts()) :
         <img class="object-fill !h-[120px]" src="<?php echo esc_url($image); ?>" width="120">
         </a>
         <p class="name font-[600] text-[13px] leading-[14px] mt-[15px] mb-[10px] text-[#404040] h-[35px] self-start" ><?php echo esc_attr($name); ?></p>
+             <div class="user-rating-content"> 
+                <img src="https://static.priceoye.pk/images/stars.svg" alt="Rating Star" width="10" height="10">  
+                <span class="h6 bold font-bold text-[13px] text-black">
+                     <?php  echo esc_html( $product->get_average_rating() )?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">
+                <?php   echo esc_html( $product->get_review_count() ) ?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">Reviews</span>  
+            </div>
         <p class="text-[12px] text-[#07121b66] flex flex-col self-start " ><?php echo $product->get_price_html(); ?></p>
-        <div class="regularprice self-end flex justify-end w-full">
+         <div class="regularprice self-end flex justify-end w-full">
           
+          <?php 
+          if ( $product->is_type('variable') ) {
+    $variations = $product->get_available_variations();
+    $variation_id = $variations[0]['variation_id'];
+    $variation = new WC_Product_Variation($variation_id);
+    $regular_price = (float) $variation->get_regular_price();
+    $sale_price = (float) $variation->get_sale_price();
+}
+
           
-                <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]" >30% OFF</p>
+if ( $regular_price > 0 && $sale_price > 0 && $sale_price < $regular_price ) {
+    $percentage = round( ( ( $regular_price - $sale_price ) / $regular_price ) * 100 );
+}
+          ?>
+              <?php if ($percentage > 0): ?>
+    <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]">
+        <?php echo esc_html($percentage); ?>% OFF
+    </p>
+<?php endif; ?>
            
         </div>
         <div class="home-badges !w-fit absolute top-[1px] right-[1px]">
@@ -824,11 +1021,38 @@ if ($products->have_posts()) :
         <img class="object-fill !h-[120px]" src="<?php echo esc_url($image); ?>" width="120">
         </a>
         <p class="name font-[600] text-[13px] mt-[15px] mb-[10px] text-[#404040] h-[32px] self-start" ><?php echo esc_attr($name); ?></p>
+             <div class="user-rating-content"> 
+                <img src="https://static.priceoye.pk/images/stars.svg" alt="Rating Star" width="10" height="10">  
+                <span class="h6 bold font-bold text-[13px] text-black">
+                     <?php  echo esc_html( $product->get_average_rating() )?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">
+                <?php   echo esc_html( $product->get_review_count() ) ?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">Reviews</span>  
+            </div>
         <p class="text-[12px] text-[#07121b66] flex flex-col self-start " ><?php echo $product->get_price_html(); ?></p>
         <div class="regularprice self-end flex justify-end w-full">
           
+          <?php 
+          if ( $product->is_type('variable') ) {
+    $variations = $product->get_available_variations();
+    $variation_id = $variations[0]['variation_id'];
+    $variation = new WC_Product_Variation($variation_id);
+    $regular_price = (float) $variation->get_regular_price();
+    $sale_price = (float) $variation->get_sale_price();
+}
+
           
-                <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]" >30% OFF</p>
+if ( $regular_price > 0 && $sale_price > 0 && $sale_price < $regular_price ) {
+    $percentage = round( ( ( $regular_price - $sale_price ) / $regular_price ) * 100 );
+}
+          ?>
+              <?php if ($percentage > 0): ?>
+    <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]">
+        <?php echo esc_html($percentage); ?>% OFF
+    </p>
+<?php endif; ?>
            
         </div>
         <div class="home-badges !w-fit absolute top-[1px] right-[1px]">
@@ -871,7 +1095,7 @@ wp_reset_query();
     ?>
 <div class="container">
    <h1 class="text-[18px] font-[600] text-black pt-[60px] pb-[30px]" >Shop by Price</h1>
-   <div class="price_range grid grid-cols-4 gap-[13px]">
+   <div class="price_range grid grid-cols-1 md:grid-cols-4 gap-[13px]">
     <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price1) ?>">Below Rs. 15,000</a>
  <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price2) ?>">Rs. 15,000 - Rs. 25,000</a>
     <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price3) ?>">Rs. 40,000 - Rs. 60,000</a>
@@ -968,10 +1192,27 @@ if ($products->have_posts()) :
         </a>
         <p class="name font-[600] text-[13px] mt-[15px] mb-[10px] text-[#404040] h-[32px] self-start" ><?php echo esc_attr($name); ?></p>
         <p class="text-[12px] text-[#07121b66] flex flex-col self-start " ><?php echo $product->get_price_html(); ?></p>
-        <div class="regularprice self-end flex justify-end w-full">
+         <div class="regularprice self-end flex justify-end w-full">
           
+          <?php 
+          if ( $product->is_type('variable') ) {
+    $variations = $product->get_available_variations();
+    $variation_id = $variations[0]['variation_id'];
+    $variation = new WC_Product_Variation($variation_id);
+    $regular_price = (float) $variation->get_regular_price();
+    $sale_price = (float) $variation->get_sale_price();
+}
+
           
-                <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]" >30% OFF</p>
+if ( $regular_price > 0 && $sale_price > 0 && $sale_price < $regular_price ) {
+    $percentage = round( ( ( $regular_price - $sale_price ) / $regular_price ) * 100 );
+}
+          ?>
+              <?php if ($percentage > 0): ?>
+    <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]">
+        <?php echo esc_html($percentage); ?>% OFF
+    </p>
+<?php endif; ?>
            
         </div>
         <div class="home-badges !w-fit absolute top-[1px] right-[1px]">

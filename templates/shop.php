@@ -168,7 +168,7 @@ if (!empty($_GET['category']) && is_array($_GET['category'])):
 
 <div class="bg-white">
 <div class="container flex items-center justify-center branddiv">
-<form method="GET" class="brand_filter flex flex-wrap gap-4">
+<form method="GET" class="brand_filter flex  gap-4">
   <?php 
   $brand_images = get_field('brand_images', 'product_cat_' . $term->term_id);
   
@@ -193,7 +193,13 @@ if (!empty($_GET['category']) && is_array($_GET['category'])):
   <?php if (!empty($Cat_banner)): ?>
 <img class="w-full" src="<?php echo esc_url( $Cat_banner['url'] ) ?>" >
 <?php endif?>
-  <div class="categoryname p-[20px] m-[25px] mb-[0px] bg-white">
+<div class="mobilefilter ml-[25px] mt-[25px] block md:hidden ">
+  <div class="mobfilter bg-white px-[15px] py-[10px] w-fit cursor-pointer rounded-[4px] flex items-center gap-1" >
+    <span class="text-[12px] text-[#202020] font-semibold" >Filter By</span>
+    <img src="	https://static.priceoye.pk/images/b_filter_icon.svg" width="20" >
+  </div>
+</div>
+  <div class="categoryname p-[20px] mt-[10px] mx-[25px] mb-[0px] bg-white ">
 <?php if (!empty($_GET['category']) && is_array($_GET['category'])): ?>
   <h1 class="text-[16px] text-[black] font-semibold" ><span class="capitalize" ><?php echo $first_category_slug?></span> Price In Pakistan</h1>
 <?php else:?>
@@ -201,8 +207,13 @@ if (!empty($_GET['category']) && is_array($_GET['category'])):
  <?php endif?>
 </div>
 <div class="shopallmain p-[25px] flex gap-[18px] items-start">
-  <div class="filters bg-white p-[30px]">
+  <div class="filters">
+    <div class=" bg-white p-[30px] " >
     <form method="GET" class="filter_form">
+      <div   class="filter_tag block md:hidden flex justify-between  cursor-pointer mb-[10px]">
+          <h1 class="text-[18px] text-[#202020] font-semibold" >Filters</h1>
+          <img class="closebtn" src="	https://static.priceoye.pk/images/not-available.svg" width="10">
+        </div>
       <div class="filteroption">
         <div   class="filter_tag flex justify-between down_arrow cursor-pointer">
           <h1 class="text-[14px] text-[#404040] font-semibold uppercase" >Set Your Price Range</h1>
@@ -307,18 +318,51 @@ if (!empty($_GET['category']) && is_array($_GET['category'])):
   </div>
 </div>
     </form>
-
+</div>
 
   </div>
  <?php  if(($query->have_posts())): ?>
-  <div class="grid grid-cols-4 gap-[9px] w-full">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-[9px] w-full">
     <?php while ($query->have_posts()) : $query->the_post(); global $product; ?>
       <?php $image_url = wp_get_attachment_image_url($product->get_image_id(), 'full'); ?>
-      <div class="p-4 rounded-[4px]  bg-white shopproducts">
+      <div class="p-4 rounded-[4px]  bg-white shopproducts relative">
         <a class="flex flex-col items-center gap-[7px]" href="<?php the_permalink(); ?>">
           <img src="<?php echo esc_url($image_url); ?>" alt="<?php the_title(); ?>" class="w-[120px] h-[120px] object-cover" />
           <h3 class="text-[13px] font-semibold mr-auto mt-[15px] mb-[10px] h-[32px]"><?php the_title(); ?></h3>
+               <div class="user-rating-content"> 
+                <img src="https://static.priceoye.pk/images/stars.svg" alt="Rating Star" width="10" height="10">  
+                <span class="h6 bold font-bold text-[13px] text-black">
+                     <?php  echo esc_html( $product->get_average_rating() )?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">
+                <?php   echo esc_html( $product->get_review_count() ) ?>
+                </span> 
+                <span class="rating-h7 font-semibold text-[11px] text-black">Reviews</span>  
+            </div>
           <p class="flex flex-col mr-auto"><?php echo $product->get_price_html(); ?></p>
+           <div class="regularprice self-end flex justify-end w-full">
+          
+          <?php 
+          if ( $product->is_type('variable') ) {
+    $variations = $product->get_available_variations();
+    $variation_id = $variations[0]['variation_id'];
+    $variation = new WC_Product_Variation($variation_id);
+    $regular_price = (float) $variation->get_regular_price();
+    $sale_price = (float) $variation->get_sale_price();
+}
+
+          
+if ( $regular_price > 0 && $sale_price > 0 && $sale_price < $regular_price ) {
+    $percentage = round( ( ( $regular_price - $sale_price ) / $regular_price ) * 100 );
+}
+          ?>
+              <?php if ($percentage > 0): ?>
+    <p class="text-[#0bb07e] bg-[#f0faf7] rounded-[8px] p-[5px] font-[600] text-[10px]">
+        <?php echo esc_html($percentage); ?>% OFF
+    </p>
+<?php endif; ?>
+           
+        </div>
         </a>
       </div>
     <?php endwhile; wp_reset_postdata(); ?>
@@ -361,6 +405,35 @@ if (!empty($_GET['category']) && is_array($_GET['category'])):
 
 
   showVisibleFilterOptions();
+  var mobilefilter = document.querySelector('.mobilefilter');
+  var filters = document.querySelector('.filters');
+  var closebtnfilter = document.querySelector('.closebtn');
+  var filtersinner = document.querySelector('.filters .bg-white');
+  var body = document.querySelector('body');
+mobilefilter.addEventListener('click', () => {
+
+    var filtersinner = document.querySelector('.filters .bg-white');
+filters.style.visibility = "visible";
+
+  filtersinner.style.transform = 'translateX(0px)';
+
+
+setTimeout(() => {
+
+  body.style.overflow = 'hidden';
+}, 1000);
+
+});
+
+
+closebtnfilter.addEventListener('click', () => {
+ 
+filters.style.visibility = "hidden";
+  body.style.overflow = 'scroll';
+  filtersinner.style.transform = 'translateX(303px)';
+});
+
+
 </script>
 
 

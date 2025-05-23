@@ -44,16 +44,38 @@
       $Header_signup = get_field('Register', 'option');
 
       ?>
-      <div class="header_logins hidden lg:block ">
-        <a href="<?php echo $Header_login['url'] ?>"
-          class="py-[10px] text-[12px] px-[20px] text-[#48afff] bg-white text-center rounded-[4px] login tracking-widest mr-[10px]"><?php echo $Header_login['title'] ?></a>
-          
-        <a href="<?php echo $Header_signup['url'] ?>"
-          class="py-[10px] text-[12px] px-[20px] border border-[#fff] text-white bg-transparent text-center rounded-[4px] register tracking-widest"><?php echo $Header_signup['title'] ?></a>
-      </div>
+      <div class="header_logins hidden lg:block">
+    <?php if ( ! is_user_logged_in() ) : ?>
+        <a href="<?php echo esc_url($Header_login['url']); ?>"
+           class="py-[10px] text-[12px] px-[20px] text-[#48afff] bg-white text-center rounded-[4px] login tracking-widest mr-[10px]">
+            <?php echo esc_html($Header_login['title']); ?>
+        </a>
+
+        <a href="<?php echo esc_url($Header_signup['url']); ?>"
+           class="py-[10px] text-[12px] px-[20px] border border-[#fff] text-white bg-transparent text-center rounded-[4px] register tracking-widest">
+            <?php echo esc_html($Header_signup['title']); ?>
+        </a>
+    <?php else : ?>
+        <?php
+        $current_user = wp_get_current_user();
+        $avatar = get_avatar( $current_user->ID, 30 );
+        $logout_url = wp_logout_url( home_url() );
+        ?>
+        <div class="user-avatar flex flex-col items-center relative">
+            <a href="/" class="flex justify-center  items-center space-x-2">
+                <?php echo $avatar; ?>
+                <span class="text-white text-[18px] capitalize"><?php echo esc_html($current_user->display_name); ?></span>
+            </a>
+             <a href="<?php echo esc_url($logout_url); ?>" class="logout text-white text-[14px] hover:underline">
+        Logout
+    </a>
+        </div>
+    <?php endif; ?>
+</div>
+
     </div>
     <div
-      class="menuslider  top-[1px] bg-[#00000080] absolute z-[-1] h-screen   left-[0px] opacity-0 transition-all delay-150 duration-300 ease-in-out">
+      class="menuslider  top-[1px] bg-[#00000080] absolute z-[1000] h-screen   left-[0px] opacity-0 transition-all delay-150 duration-300 ease-in-out">
       <div class="hamburgers w-[0px] transition-all delay-150 duration-300 ease-in-out h-screen overflow-scroll">
         <div
           class="blue_bg  bg-[#48afff] flex justify-between w-full items-start   py-[0px] px-[0px] h-[284px] w-[343px] transition-all delay-150 duration-300 ease-in-out">
@@ -70,16 +92,30 @@
               echo '<h1>' . get_bloginfo('name') . '</h1>';
             }
             ?>
-            <a href="<?php echo $Header_login['url'] ?>"
+              <?php if ( ! is_user_logged_in() ) : ?>
+       <a href="<?php echo $Header_login['url'] ?>"
               class="py-[10px] font-bold text-[12px] px-[20px] text-[#48afff] bg-white text-center rounded-[4px] login tracking-widest mt-[10px] block w-[90%]">Logins</a>
-              <a href="/tracking-page" class="flex gap-[5px] items-center text-[15px] text-white font-normal my-[10px]" ><img src="https://static.priceoye.pk/images/user-dashboard/tracker.svg"> Track my Order</a>
+    <?php else : ?>
+        <?php
+        $current_user = wp_get_current_user();
+        $avatar = get_avatar( $current_user->ID, 30 );
+        ?>
+        <div class="user-avatar flex items-center my-[10px]">
+            <a href="/" class="flex items-center space-x-2 gap-[5px]">
+                <?php echo $avatar; ?>
+                <span class="text-white text-[18px] capitalize"><?php echo esc_html($current_user->display_name); ?></span>
+            </a>
+        </div>
+    <?php endif; ?>
+           
+              <a href="/orders-tracking" class="trackorder flex gap-[5px] items-center text-[15px] text-white font-normal my-[10px]" ><img src="https://static.priceoye.pk/images/user-dashboard/tracker.svg"> Track my Order</a>
           </div>
           <img src="https://static.priceoye.pk/icons/close-box.svg" class="close-icon cursor-pointer" alt="close-icon"
             width="20px" height="20px">
 
         </div>
         <div
-          class="menu_below h-full p-[0px] text-[#748a98] text-[12px] font-[600] bg-white transition-all delay-150 duration-300 ease-in-out">
+          class="menu_below h-fit p-[0px] text-[#748a98] text-[12px] font-[600] bg-white transition-all delay-150 duration-300 ease-in-out">
           <h1 class="mb-[10px]">CATEGORIES</h1>
           <div class="header_category flex flex-col gap-3 py-[10px] ">
           <div class="categies flex justify-between pl-[15px] pr-[20px]">
@@ -93,7 +129,7 @@
             <?php 
   $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
   $get_brand = get_field('brand');
-  print_r($get_brand);
+
 ?>
 <a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
 
@@ -115,7 +151,7 @@
             <?php 
   $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
   $get_brand = get_field('brand');
-  print_r($get_brand);
+
 ?>
 <a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
 
@@ -137,7 +173,7 @@
             <?php 
   $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
   $get_brand = get_field('brand');
-  print_r($get_brand);
+
 ?>
 <a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
 
@@ -159,7 +195,7 @@
             <?php 
   $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
   $get_brand = get_field('brand');
-  print_r($get_brand);
+
 ?>
 <a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
 
@@ -181,7 +217,7 @@
             <?php 
   $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
   $get_brand = get_field('brand');
-  print_r($get_brand);
+
 ?>
 <a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
 
@@ -203,7 +239,7 @@
             <?php 
   $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
   $get_brand = get_field('brand');
-  print_r($get_brand);
+
 ?>
 <a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
 
@@ -225,7 +261,7 @@
             <?php 
   $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
   $get_brand = get_field('brand');
-  print_r($get_brand);
+
 ?>
 <a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
 
@@ -247,7 +283,7 @@
             <?php 
   $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
   $get_brand = get_field('brand');
-  print_r($get_brand);
+
 ?>
 <a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
 
