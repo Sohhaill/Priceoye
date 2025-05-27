@@ -258,14 +258,7 @@ if (!empty($screen_sizes) && !is_wp_error($screen_sizes)) : ?>
 
 <?php 
 
-// $brands = array();
 
-// foreach ($products as $product_id) {
-//     $brand = get_field('brand', $product_id);
-//     if ($brand && !in_array($brand, $brands)) {
-//         $brands[] = $brand;
-//     }
-// }
 $allbrands = get_terms(array(
     'taxonomy'   => 'product_brand',
     'hide_empty' => false, 

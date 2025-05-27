@@ -18,7 +18,9 @@
     transition: all 0.3s ease-in-out;
   visibility: hidden;
   }
-
+.pagination.items-center.mt-8.flex.justify-end.col-span-4 {
+    display: none;
+}
   .filters .bg-white {
     width: 300px;
     margin-left: auto;
