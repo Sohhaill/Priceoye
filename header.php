@@ -117,182 +117,253 @@
         <div
           class="menu_below h-fit p-[0px] text-[#748a98] text-[12px] font-[600] bg-white transition-all delay-150 duration-300 ease-in-out">
           <h1 class="mb-[10px]">CATEGORIES</h1>
-          <div class="header_category flex flex-col gap-3 py-[10px] ">
-          <div class="categies flex justify-between pl-[15px] pr-[20px]">
-            <div class="category flex gap-[6px] items-center">
-              <img src="https://static.priceoye.pk/images/mobiles-3.svg" >
-              <p class="text-[#404040] text-[13px] font-normal" >Mobiles</p>
-            </div>
-             <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
-          </div>
-           <div class="filter_option flex flex-col font-normal  mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden ">
-            <?php 
-  $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
-  $get_brand = get_field('brand');
+         <?php
 
+$category = get_term_by('slug', 'mobiles', 'product_cat');
+
+if ($category) :
+    $term_id = 'product_cat_' . $category->term_id;
+    $shop_page_url = get_permalink(get_page_by_path('shop-2'));
+    
 ?>
-<a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
+<div class="header_category flex flex-col gap-3 py-[10px]">
+  <div class="categies flex justify-between pl-[15px] pr-[20px]">
+    <div class="category flex gap-[6px] items-center">
+      <img src="https://static.priceoye.pk/images/mobiles-3.svg">
+      <p class="text-[#404040] text-[13px] font-normal">Mobiles</p>
+    </div>
+    <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
+  </div>
 
-          <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Iphone', $shop_page_url ); ?>">Iphone</a>
-           <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', ' Redmi', $shop_page_url ); ?>"> Redmi</a>
-            <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Xiaomi', $shop_page_url ); ?>">Xiaomi</a>
-            
-           </div>
-          </div>
-          <div class="header_category flex flex-col gap-3 py-[10px] ">
-          <div class="categies flex justify-between pl-[15px] pr-[20px]">
-            <div class="category flex gap-[6px] items-center">
-              <img src="https://static.priceoye.pk/images/smart_watches.svg" >
-              <p class="text-[#404040] text-[13px] font-normal" >Smart Watches</p>
-            </div>
-             <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
-          </div>
-           <div class="filter_option flex flex-col font-normal  mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden ">
-            <?php 
-  $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
-  $get_brand = get_field('brand');
+  <?php if (have_rows('brand_images', $term_id)) : ?>
+    <div class="filter_option flex flex-col font-normal mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden">
+      <?php while (have_rows('brand_images', $term_id)) : the_row(); 
+        $brand_name = get_sub_field('name');
+        $brand_image = get_sub_field('image');
+        ?>
+        <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand capitalize flex items-center gap-2" 
+           href="<?php echo esc_url(add_query_arg('brand[]', $brand_name, $shop_page_url)); ?>">
+          <?php if ($brand_image) : ?>
+            <img src="<?php echo esc_url($brand_image['url']); ?>" alt="<?php echo esc_attr($brand_name); ?>" class="w-5 h-5 object-contain">
+          <?php endif; ?>
+          <?php echo esc_html($brand_name); ?>
+        </a>
+      <?php endwhile; ?>
+    </div>
+  <?php endif; ?>
+</div>
+<?php endif; ?>
+         <?php
 
+$category = get_term_by('slug', 'smart-watches', 'product_cat');
+
+if ($category) :
+    $term_id = 'product_cat_' . $category->term_id;
+    $shop_page_url = get_permalink(get_page_by_path('shop-2'));
 ?>
-<a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
+<div class="header_category flex flex-col gap-3 py-[10px]">
+  <div class="categies flex justify-between pl-[15px] pr-[20px]">
+    <div class="category flex gap-[6px] items-center">
+      <img src="https://static.priceoye.pk/images/smart_watches.svg">
+      <p class="text-[#404040] text-[13px] font-normal">Watches</p>
+    </div>
+    <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
+  </div>
 
-          <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Iphone', $shop_page_url ); ?>">Iphone</a>
-           <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', ' Redmi', $shop_page_url ); ?>"> Redmi</a>
-            <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Xiaomi', $shop_page_url ); ?>">Xiaomi</a>
-            
-           </div>
-          </div>
-          <div class="header_category flex flex-col gap-3 py-[10px] ">
-          <div class="categies flex justify-between pl-[15px] pr-[20px]">
-            <div class="category flex gap-[6px] items-center">
-              <img src="https://static.priceoye.pk/images/wireless_earbuds-3.svg" >
-              <p class="text-[#404040] text-[13px] font-normal" >Wireless Earbuds</p>
-            </div>
-             <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
-          </div>
-           <div class="filter_option flex flex-col font-normal  mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden ">
-            <?php 
-  $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
-  $get_brand = get_field('brand');
+  <?php if (have_rows('brand_images', $term_id)) : ?>
+    <div class="filter_option flex flex-col font-normal mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden">
+      <?php while (have_rows('brand_images', $term_id)) : the_row(); 
+        $brand_name = get_sub_field('name');
+        $brand_image = get_sub_field('image');
+        ?>
+        <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand capitalize flex items-center gap-2" 
+           href="<?php echo esc_url(add_query_arg('brand[]', $brand_name, $shop_page_url)); ?>">
+          <?php if ($brand_image) : ?>
+            <img src="<?php echo esc_url($brand_image['url']); ?>" alt="<?php echo esc_attr($brand_name); ?>" class="w-5 h-5 object-contain">
+          <?php endif; ?>
+          <?php echo esc_html($brand_name); ?>
+        </a>
+      <?php endwhile; ?>
+    </div>
+  <?php endif; ?>
+</div>
+<?php endif; ?>
+         <?php
 
+$category = get_term_by('slug', 'wireless-airbuds', 'product_cat');
+
+if ($category) :
+    $term_id = 'product_cat_' . $category->term_id;
+    $shop_page_url = get_permalink(get_page_by_path('shop-2'));
 ?>
-<a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
+<div class="header_category flex flex-col gap-3 py-[10px]">
+  <div class="categies flex justify-between pl-[15px] pr-[20px]">
+    <div class="category flex gap-[6px] items-center">
+      <img src="https://static.priceoye.pk/images/wireless_earbuds-3.svg">
+      <p class="text-[#404040] text-[13px] font-normal">Wireless Earbuds</p>
+    </div>
+    <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
+  </div>
 
-          <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Iphone', $shop_page_url ); ?>">Iphone</a>
-           <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', ' Redmi', $shop_page_url ); ?>"> Redmi</a>
-            <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Xiaomi', $shop_page_url ); ?>">Xiaomi</a>
-            
-           </div>
-          </div>
-           <div class="header_category flex flex-col gap-3 py-[10px] ">
-          <div class="categies flex justify-between pl-[15px] pr-[20px]">
-            <div class="category flex gap-[6px] items-center">
-              <img src="https://static.priceoye.pk/images/air-purifiers.svg" >
-              <p class="text-[#404040] text-[13px] font-normal" >Air Purifiers</p>
-            </div>
-             <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
-          </div>
-           <div class="filter_option flex flex-col font-normal  mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden ">
-            <?php 
-  $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
-  $get_brand = get_field('brand');
+  <?php if (have_rows('brand_images', $term_id)) : ?>
+    <div class="filter_option flex flex-col font-normal mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden">
+      <?php while (have_rows('brand_images', $term_id)) : the_row(); 
+        $brand_name = get_sub_field('name');
+        $brand_image = get_sub_field('image');
+        ?>
+        <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand capitalize flex items-center gap-2" 
+           href="<?php echo esc_url(add_query_arg('brand[]', $brand_name, $shop_page_url)); ?>">
+          <?php if ($brand_image) : ?>
+            <img src="<?php echo esc_url($brand_image['url']); ?>" alt="<?php echo esc_attr($brand_name); ?>" class="w-5 h-5 object-contain">
+          <?php endif; ?>
+          <?php echo esc_html($brand_name); ?>
+        </a>
+      <?php endwhile; ?>
+    </div>
+  <?php endif; ?>
+</div>
+<?php endif; ?>
+         <?php
 
+$category = get_term_by('slug', 'bluetooth-speaker', 'product_cat');
+
+if ($category) :
+    $term_id = 'product_cat_' . $category->term_id;
+    $shop_page_url = get_permalink(get_page_by_path('shop-2'));
 ?>
-<a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
+<div class="header_category flex flex-col gap-3 py-[10px]">
+  <div class="categies flex justify-between pl-[15px] pr-[20px]">
+    <div class="category flex gap-[6px] items-center">
+      <img src="	https://static.priceoye.pk/images/blutooth_speaker.svg">
+      <p class="text-[#404040] text-[13px] font-normal">Bluetooth Speakers</p>
+    </div>
+    <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
+  </div>
 
-          <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Iphone', $shop_page_url ); ?>">Iphone</a>
-           <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', ' Redmi', $shop_page_url ); ?>"> Redmi</a>
-            <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Xiaomi', $shop_page_url ); ?>">Xiaomi</a>
-            
-           </div>
-          </div>
-           <div class="header_category flex flex-col gap-3 py-[10px] ">
-          <div class="categies flex justify-between pl-[15px] pr-[20px]">
-            <div class="category flex gap-[6px] items-center">
-              <img src="	https://static.priceoye.pk/images/blutooth_speaker.svg" >
-              <p class="text-[#404040] text-[13px] font-normal" >Bluetooth Speakers</p>
-            </div>
-             <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
-          </div>
-           <div class="filter_option flex flex-col font-normal  mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden ">
-            <?php 
-  $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
-  $get_brand = get_field('brand');
+  <?php if (have_rows('brand_images', $term_id)) : ?>
+    <div class="filter_option flex flex-col font-normal mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden">
+      <?php while (have_rows('brand_images', $term_id)) : the_row(); 
+        $brand_name = get_sub_field('name');
+        $brand_image = get_sub_field('image');
+        ?>
+        <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand capitalize flex items-center gap-2" 
+           href="<?php echo esc_url(add_query_arg('brand[]', $brand_name, $shop_page_url)); ?>">
+          <?php if ($brand_image) : ?>
+            <img src="<?php echo esc_url($brand_image['url']); ?>" alt="<?php echo esc_attr($brand_name); ?>" class="w-5 h-5 object-contain">
+          <?php endif; ?>
+          <?php echo esc_html($brand_name); ?>
+        </a>
+      <?php endwhile; ?>
+    </div>
+  <?php endif; ?>
+</div>
+<?php endif; ?>
+         <?php
 
+$category = get_term_by('slug', 'power-banks', 'product_cat');
+
+if ($category) :
+    $term_id = 'product_cat_' . $category->term_id;
+    $shop_page_url = get_permalink(get_page_by_path('shop-2'));
 ?>
-<a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
+<div class="header_category flex flex-col gap-3 py-[10px]">
+  <div class="categies flex justify-between pl-[15px] pr-[20px]">
+    <div class="category flex gap-[6px] items-center">
+      <img src="	https://static.priceoye.pk/images/power-bank.svg">
+      <p class="text-[#404040] text-[13px] font-normal">Power Banks</p>
+    </div>
+    <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
+  </div>
 
-          <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Iphone', $shop_page_url ); ?>">Iphone</a>
-           <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', ' Redmi', $shop_page_url ); ?>"> Redmi</a>
-            <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Xiaomi', $shop_page_url ); ?>">Xiaomi</a>
-            
-           </div>
-          </div>
-           <div class="header_category flex flex-col gap-3 py-[10px] ">
-          <div class="categies flex justify-between pl-[15px] pr-[20px]">
-            <div class="category flex gap-[6px] items-center">
-              <img src="	https://static.priceoye.pk/images/power-bank.svg" >
-              <p class="text-[#404040] text-[13px] font-normal" >Power Banks</p>
-            </div>
-             <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
-          </div>
-           <div class="filter_option flex flex-col font-normal  mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden ">
-            <?php 
-  $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
-  $get_brand = get_field('brand');
+  <?php if (have_rows('brand_images', $term_id)) : ?>
+    <div class="filter_option flex flex-col font-normal mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden">
+      <?php while (have_rows('brand_images', $term_id)) : the_row(); 
+        $brand_name = get_sub_field('name');
+        $brand_image = get_sub_field('image');
+        ?>
+        <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand capitalize flex items-center gap-2" 
+           href="<?php echo esc_url(add_query_arg('brand[]', $brand_name, $shop_page_url)); ?>">
+          <?php if ($brand_image) : ?>
+            <img src="<?php echo esc_url($brand_image['url']); ?>" alt="<?php echo esc_attr($brand_name); ?>" class="w-5 h-5 object-contain">
+          <?php endif; ?>
+          <?php echo esc_html($brand_name); ?>
+        </a>
+      <?php endwhile; ?>
+    </div>
+  <?php endif; ?>
+</div>
+<?php endif; ?>
+         <?php
 
+$category = get_term_by('slug', 'tablets', 'product_cat');
+
+if ($category) :
+    $term_id = 'product_cat_' . $category->term_id;
+    $shop_page_url = get_permalink(get_page_by_path('shop-2'));
 ?>
-<a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
+<div class="header_category flex flex-col gap-3 py-[10px]">
+  <div class="categies flex justify-between pl-[15px] pr-[20px]">
+    <div class="category flex gap-[6px] items-center">
+      <img src="https://static.priceoye.pk/images/tablets.svg">
+      <p class="text-[#404040] text-[13px] font-normal">Tablets</p>
+    </div>
+    <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
+  </div>
 
-          <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Iphone', $shop_page_url ); ?>">Iphone</a>
-           <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', ' Redmi', $shop_page_url ); ?>"> Redmi</a>
-            <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Xiaomi', $shop_page_url ); ?>">Xiaomi</a>
-            
-           </div>
-          </div>
-           <div class="header_category flex flex-col gap-3 py-[10px] ">
-          <div class="categies flex justify-between pl-[15px] pr-[20px]">
-            <div class="category flex gap-[6px] items-center">
-              <img src="https://static.priceoye.pk/images/tablets.svg" >
-              <p class="text-[#404040] text-[13px] font-normal" >Tablets</p>
-            </div>
-             <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
-          </div>
-           <div class="filter_option flex flex-col font-normal  mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden ">
-            <?php 
-  $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
-  $get_brand = get_field('brand');
+  <?php if (have_rows('brand_images', $term_id)) : ?>
+    <div class="filter_option flex flex-col font-normal mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden">
+      <?php while (have_rows('brand_images', $term_id)) : the_row(); 
+        $brand_name = get_sub_field('name');
+        $brand_image = get_sub_field('image');
+        ?>
+        <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand capitalize flex items-center gap-2" 
+           href="<?php echo esc_url(add_query_arg('brand[]', $brand_name, $shop_page_url)); ?>">
+          <?php if ($brand_image) : ?>
+            <img src="<?php echo esc_url($brand_image['url']); ?>" alt="<?php echo esc_attr($brand_name); ?>" class="w-5 h-5 object-contain">
+          <?php endif; ?>
+          <?php echo esc_html($brand_name); ?>
+        </a>
+      <?php endwhile; ?>
+    </div>
+  <?php endif; ?>
+</div>
+<?php endif; ?>
+         <?php
 
+$category = get_term_by('slug', 'laptops', 'product_cat');
+
+if ($category) :
+    $term_id = 'product_cat_' . $category->term_id;
+    $shop_page_url = get_permalink(get_page_by_path('shop-2'));
 ?>
-<a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
+<div class="header_category flex flex-col gap-3 py-[10px]">
+  <div class="categies flex justify-between pl-[15px] pr-[20px]">
+    <div class="category flex gap-[6px] items-center">
+      <img src="https://static.priceoye.pk/images/laptop-mac-outline.svg">
+      <p class="text-[#404040] text-[13px] font-normal">Laptops</p>
+    </div>
+    <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
+  </div>
 
-          <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Iphone', $shop_page_url ); ?>">Iphone</a>
-           <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', ' Redmi', $shop_page_url ); ?>"> Redmi</a>
-            <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Xiaomi', $shop_page_url ); ?>">Xiaomi</a>
-            
-           </div>
-          </div>
-           <div class="header_category flex flex-col gap-3 py-[10px] ">
-          <div class="categies flex justify-between pl-[15px] pr-[20px]">
-            <div class="category flex gap-[6px] items-center">
-              <img src="https://static.priceoye.pk/images/laptop-mac-outline.svg" >
-              <p class="text-[#404040] text-[13px] font-normal" >Laptops</p>
-            </div>
-             <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
-          </div>
-           <div class="filter_option flex flex-col font-normal  mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden ">
-            <?php 
-  $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
-  $get_brand = get_field('brand');
-
-?>
-<a class="pb-[5px] pt-[10px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Samsung', $shop_page_url ); ?>">Samsung</a>
-
-          <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Iphone', $shop_page_url ); ?>">Iphone</a>
-           <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', ' Redmi', $shop_page_url ); ?>"> Redmi</a>
-            <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand" href="<?php echo add_query_arg( 'brand[]', 'Xiaomi', $shop_page_url ); ?>">Xiaomi</a>
-            
-           </div>
-          </div>
+  <?php if (have_rows('brand_images', $term_id)) : ?>
+    <div class="filter_option flex flex-col font-normal mt-3 pb-[2.5rem] border-t border-[#dbdbdb] hidden">
+      <?php while (have_rows('brand_images', $term_id)) : the_row(); 
+        $brand_name = get_sub_field('name');
+        $brand_image = get_sub_field('image');
+        ?>
+        <a class="py-[5px] px-[17px] text-[13px] text-[#404040] cat_headerbrand capitalize flex items-center gap-2" 
+           href="<?php echo esc_url(add_query_arg('brand[]', $brand_name, $shop_page_url)); ?>">
+          <?php if ($brand_image) : ?>
+            <img src="<?php echo esc_url($brand_image['url']); ?>" alt="<?php echo esc_attr($brand_name); ?>" class="w-5 h-5 object-contain">
+          <?php endif; ?>
+          <?php echo esc_html($brand_name); ?>
+        </a>
+      <?php endwhile; ?>
+    </div>
+  <?php endif; ?>
+</div>
+<?php endif; ?>
+ 
           <h1 class="mt-[60px] mb-[10px]">MAIN NAVIGATION</h1>
           <?php
 

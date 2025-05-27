@@ -82,11 +82,14 @@ $children = get_terms('product_cat', array(
 </div>
 
 </section>
+<?php $saletext= get_field('sale_text');
+$categoryname = get_field('categories_name');
+?>
 <section class="sale mt-[30px]" >
 <div class="container m-auto">
     <div class="topbanner relative">
         <img class="m-auto" src="<?php echo get_template_directory_uri(  );?>/assets/img/sale-home-desk.png" >
-        <h1 class=" text-[20px] md:text-[40px] font-[600] text-center z-[22] absolute top-[1px] md:top-[22px] text-white w-[93%]" >Spring Season Sale</h1>
+        <h1 class=" text-[20px] md:text-[40px] font-[600] text-center z-[22] absolute top-[1px] md:top-[22px] text-white w-[93%]" ><?php echo $saletext?></h1>
     </div>
    
 </div>
@@ -113,7 +116,7 @@ if ($products->have_posts()) :
     ?>
 <div class="springgrid container !pt-[60px] !pb-[30px]">
     <div class="viewall text-right pb-[30px] flex justify-between items-center">
-    <h1 class="text-[18px] font-[600] text-white" >Latest Mobiles</h1>
+    <h1 class="text-[18px] font-[600] text-white" ><?php echo $categoryname['mobile']?></h1>
         
         <a href="<?php echo esc_url($shopall); ?>" ><button class="cursor-pointer whitebtn font-[600]  border border-[#c1bdbd] py-[10px] px-[20px] text-[12px] text-center rounded-[4px]" >View All</button></a>
     </div>
@@ -223,7 +226,7 @@ if ($products->have_posts()) :
     ?>
 <div class="springgrid container !pt-[60px] !pb-[30px]">
     <div class="viewall text-right pb-[30px] flex justify-between items-center">
-        <h1 class="text-[18px] font-[600] text-black" ><span class="text-[#f53d3d]" >New </span>Arrivals</h1>
+        <h1 class="text-[18px] font-[600] text-black" ><?php echo $categoryname['new_arrival']?></h1>
             </div>
    
 
@@ -325,7 +328,7 @@ if ($products->have_posts()) :
     ?>
 <div class="springgrid container !pt-[60px] !pb-[30px]">
     <div class="viewall text-right pb-[30px] flex justify-between items-center">
-        <h1 class="text-[18px] font-[600] text-white" >Latest Wireless Earbuds</h1>
+        <h1 class="text-[18px] font-[600] text-white" ><?php echo $categoryname['wireless_earbuds']?></h1>
         <a  href="<?php echo esc_url($wirelessall); ?>" ><button class="cursor-pointer whitebtn font-[600]  border border-[#c1bdbd] py-[10px] px-[20px] text-[12px] text-center rounded-[4px]" >View All</button></a>
     </div>
    
@@ -458,7 +461,7 @@ if ($products->have_posts()) :
 <div class="springgrid container !pt-[60px] !pb-[30px]">
     <div class="viewall text-right pb-[30px] flex justify-between items-center">
 
-        <h1 class="text-[18px] font-[600] text-white" >Latest Smart Watches</h1>
+        <h1 class="text-[18px] font-[600] text-white" ><?php echo $categoryname['smart_watches']?></h1>
         <a href="<?php echo esc_url($watches) ?>" ><button class="cursor-pointer whitebtn font-[600]  border border-[#c1bdbd] py-[10px] px-[20px] text-[12px] text-center rounded-[4px]" >View All</button></a>
     </div>
    
@@ -546,7 +549,7 @@ wp_reset_query();
 <section  class="best_seller">
 
     <div class="bestsellertext !pt-[60px] !pb-[30px] flex flex-col container justify-center items-center">
-    <h1 class="text-[18px] text-[#404040] font-[600]" >Best Seller</h1>
+    <h1 class="text-[18px] text-[#404040] font-[600]" ><?php echo $categoryname['best_seller']?></h1>
     <p class="text-[14px]" >Get the best prices in town</p>
     </div>
     <?php
@@ -631,7 +634,7 @@ if ($products->have_posts()) :
     ?>
 <div class="springgrid container !pt-[60px] !pb-[30px]">
     <div class="viewall text-right pb-[30px] flex justify-between items-center">
-        <h1 class="text-[18px] font-[600] text-white" >Latest Bluetooth Speakers</h1>
+        <h1 class="text-[18px] font-[600] text-white" ><?php echo $categoryname['bluetooth_speakers']?></h1>
         <a href="<?php echo esc_url($speaker) ?>" ><button class="cursor-pointer whitebtn font-[600]  border border-[#c1bdbd] py-[10px] px-[20px] text-[12px] text-center rounded-[4px]" >View All</button></a>
     </div>
    
@@ -739,7 +742,7 @@ if ($products->have_posts()) :
     ?>
 <div class="springgrid container !pt-[60px] !pb-[30px]">
     <div class="viewall text-right pb-[30px] flex justify-between items-center">
-        <h1 class="text-[18px] font-[600] text-black" ><span class="text-[#f53d3d]" >Craziest Deals</span> of the Year</h1>
+        <h1 class="text-[18px] font-[600] text-black" ><?php echo $categoryname['craziest_deals_of_the_year']?></h1>
             </div>
    
 
@@ -850,7 +853,7 @@ if ($products->have_posts()) :
     ?>
 <div class="springgrid container !pt-[60px] !pb-[30px]">
     <div class="viewall text-right pb-[30px] flex justify-between items-center">
-        <h1 class="text-[18px] font-[600] text-white" >Latest Tablets</h1>
+        <h1 class="text-[18px] font-[600] text-white" ><?php echo $categoryname['tablets']?></h1>
         <a  href="<?php echo esc_url($wirelessall); ?>" ><button class="cursor-pointer whitebtn font-[600]  border border-[#c1bdbd] py-[10px] px-[20px] text-[12px] text-center rounded-[4px]" >View All</button></a>
     </div>
    
@@ -941,7 +944,7 @@ wp_reset_query();
 </section>
 <section>
     <div class="container">
-    <h1 class="text-[18px] font-[600] text-black pb-[30px] pt-[60px] " >Reason to Buy</h1>
+    <h1 class="text-[18px] font-[600] text-black pb-[30px] pt-[60px] " ><?php echo $categoryname['reason_to_buy']?></h1>
     <div class="reason_group">
         <div class="reason_info flex flex-col md:flex-row items-center justify-evenly px-[unset] pt-[7px] pb-[20px]   md:p-[20px] rounded-[10px] md:rounded-[20px]">
             <img class="w-[95px] md:w-[155px] " src="https://static.priceoye.pk/images/home/extended-warranty.svg">
@@ -998,7 +1001,7 @@ if ($products->have_posts()) :
     ?>
 <div class="springgrid container !pt-[60px] !pb-[30px]">
     <div class="viewall text-right pb-[30px] flex justify-between items-center">
-        <h1 class="text-[18px] font-[600] text-white" >Latest Laptops</h1>
+        <h1 class="text-[18px] font-[600] text-white" ><?php echo $categoryname['laptops']?></h1>
         <a href="<?php echo esc_url($speaker) ?>" ><button class="cursor-pointer whitebtn font-[600]  border border-[#c1bdbd] py-[10px] px-[20px] text-[12px] text-center rounded-[4px]" >View All</button></a>
     </div>
    
@@ -1082,29 +1085,30 @@ wp_reset_query();
 
 </div>
 <section class="shopby_price" >
-    <?php 
-     $shop_page_url = get_permalink( get_page_by_path( 'shop-2' ) ); 
-     $price1 = add_query_arg( 'price[]', 'below-15000', $shop_page_url );
-     $price2 = add_query_arg( 'price[]', '15000-25000', $shop_page_url );
-     $price3 = add_query_arg( 'price[]', '25000-40000', $shop_page_url );
-     $price4 = add_query_arg( 'price[]', '40000-60000', $shop_page_url );
-     $price5 = add_query_arg( 'price[]', '60000-80000', $shop_page_url );
-     $price6 = add_query_arg( 'price[]', '80000-100000', $shop_page_url );
-     $price7 = add_query_arg( 'price[]', '100000-150000', $shop_page_url );
-     $price8 = add_query_arg( 'price[]', 'above-150000', $shop_page_url );
+    
+    <?php
+    $price_ranges = get_field('price_range', 'option'); 
+     
+
     ?>
+
 <div class="container">
    <h1 class="text-[18px] font-[600] text-black pt-[60px] pb-[30px]" >Shop by Price</h1>
    <div class="price_range grid grid-cols-1 md:grid-cols-4 gap-[13px]">
-    <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price1) ?>">Below Rs. 15,000</a>
- <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price2) ?>">Rs. 15,000 - Rs. 25,000</a>
-    <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price3) ?>">Rs. 40,000 - Rs. 60,000</a>
-    <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price4) ?>">Rs. 40,000 - Rs. 60,000</a>
-    <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price5) ?>">Rs. 60,000 - Rs. 80,000</a>
-    <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price6) ?>">Rs. 80,000 - Rs. 100,000</a>
-    <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price7) ?>">Rs. 100,000 - Rs. 150,000</a>
-    <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price8) ?>">Above 150,000</a>
-      
+        <?php foreach ($price_ranges as  $range):
+    
+        $add_price = $range['add_price']; 
+            $range_label = esc_html($add_price['price']);
+            $range_value = esc_attr($add_price['value']);
+             $price1 = add_query_arg( 'price[]', $range_value, $shop_page_url );
+            $input_id = 'price_range_' . $index;
+            $is_checked = (isset($_GET['price']) && in_array($range_value, $_GET['price'])) ? 'checked' : '';
+            
+        ?>
+         <a class="text-[13px] price-bar h5 text-white relative font-semibold p-[16px] rounded-[12px] text-center bg-[#f90390] z-[22]" href="<?php echo esc_url($price1) ?>"><?php echo $range_label; ?></a>
+ 
+        <?php endforeach?>
+ 
 </div>
 </div>
 </section>
@@ -1121,7 +1125,7 @@ $children = get_terms('product_cat', array(
 ?>
 
     <div class="container">
-    <h1 class="text-[18px] font-[600] text-black !pt-[60px] !pb-[30px]" >Shop More Categories</h1>
+    <h1 class="text-[18px] font-[600] text-black !pt-[60px] !pb-[30px]" ><?php echo $categoryname['shop_more_categories']?></h1>
     </div>
     <div class="bg-[#f9dcff] py-[30px]">
 <div class="shopmore container flex justify-center items-center gap-[15px]">
@@ -1168,7 +1172,7 @@ if ($products->have_posts()) :
     ?>
 <div class="springgrid container !pt-[60px] !pb-[30px]">
     <div class="viewall text-right pb-[30px] flex justify-between items-center">
-        <h1 class="text-[18px] font-[600] text-white" >Latest Power Banks</h1>
+        <h1 class="text-[18px] font-[600] text-white" ><?php echo $categoryname['power_banks']?></h1>
         <a href="<?php echo esc_url($speaker) ?>" ><button class="cursor-pointer whitebtn font-[600]  border border-[#c1bdbd] py-[10px] px-[20px] text-[12px] text-center rounded-[4px]" >View All</button></a>
     </div>
    

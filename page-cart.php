@@ -89,10 +89,7 @@ if ( !empty( $cart_item['variation'] ) ) {
     <h1 class="mt-[5px] mb-[15px] uppercase font-bold" >Subtotal</h1>
     <p id="total_price" >Rs ...</p>
     </div>
-    <div class="flex justify-between items-center" >
-    <h1 class="mb-[15px] uppercase font-bold" >Shipping</h1>
-    <p><?php echo number_format($totalshipping) ?></p>
-    </div>
+    
     <div class="flex justify-between items-center" >
     <h1 class="mb-[15px] uppercase font-bold" >Postage</h1>
     <p id="Postage_price" >Rs ...</p>

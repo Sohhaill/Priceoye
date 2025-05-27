@@ -7,143 +7,100 @@ get_header();
 
 <?php
 
-
-$meta_query = [];
-
-
 $meta_query = array('relation' => 'AND');
+$tax_query  = array('relation' => 'AND');
 
-
+// Price filter
 if (isset($_GET['price'])) {
     $price_ranges = $_GET['price'];
+    $price_meta = ['relation' => 'OR'];
 
-    $price_meta = array('relation' => 'OR');
     foreach ($price_ranges as $range) {
-        switch ($range) {
-            case 'below-15000':
-                $price_meta[] = array(
-                    'key' => '_price',
-                    'value' => 15000,
-                    'compare' => '<',
-                    'type' => 'NUMERIC'
-                );
-                break;
-            case '15000-25000':
-                $price_meta[] = array(
-                    'key' => '_price',
-                    'value' => array(15000, 25000),
-                    'compare' => 'BETWEEN',
-                    'type' => 'NUMERIC'
-                );
-                break;
-            case '25000-40000':
-                $price_meta[] = array(
-                    'key' => '_price',
-                    'value' => array(25000, 40000),
-                    'compare' => 'BETWEEN',
-                    'type' => 'NUMERIC'
-                );
-                break;
-                case '40000-60000':
-                $price_meta[] = array(
-                    'key' => '_price',
-                    'value' => array(40000, 60000),
-                    'compare' => 'BETWEEN',
-                    'type' => 'NUMERIC'
-                );
-                break;
-                case '60000-80000':
-                $price_meta[] = array(
-                    'key' => '_price',
-                    'value' => array(60000, 80000),
-                    'compare' => 'BETWEEN',
-                    'type' => 'NUMERIC'
-                );
-                break;
-                case '80000-100000':
-                $price_meta[] = array(
-                    'key' => '_price',
-                    'value' => array(80000, 100000),
-                    'compare' => 'BETWEEN',
-                    'type' => 'NUMERIC'
-                );
-                break;
-                case '100000-150000':
-                $price_meta[] = array(
-                    'key' => '_price',
-                    'value' => array(100000, 150000),
-                    'compare' => 'BETWEEN',
-                    'type' => 'NUMERIC'
-                );
-                break;
-                case 'above-150000':
-                $price_meta[] = array(
-                    'key' => '_price',
-                    'value' => 150000,
-                    'compare' => '>',
-                    'type' => 'NUMERIC'
-                );
-                break;
+        if (preg_match('/^below-(\d+)$/', $range, $match)) {
+            $price_meta[] = [
+                'key' => '_price',
+                'value' => (int)$match[1],
+                'compare' => '<',
+                'type' => 'NUMERIC'
+            ];
+        } elseif (preg_match('/^above-(\d+)$/', $range, $match)) {
+            $price_meta[] = [
+                'key' => '_price',
+                'value' => (int)$match[1],
+                'compare' => '>',
+                'type' => 'NUMERIC'
+            ];
+        } elseif (preg_match('/^(\d+)-(\d+)$/', $range, $match)) {
+            $price_meta[] = [
+                'key' => '_price',
+                'value' => [ (int)$match[1], (int)$match[2] ],
+                'compare' => 'BETWEEN',
+                'type' => 'NUMERIC'
+            ];
         }
     }
-    $meta_query[] = $price_meta;
+
+    if (count($price_meta) > 1) {
+        $meta_query[] = $price_meta;
+    }
 }
 
-
+// Popularity
 if (isset($_GET['popular'])) {
     $meta_query[] = array(
-        'key' => 'popularity', 
-        'value' => '1',     
+        'key' => 'popularity',
+        'value' => '1',
         'compare' => '='
     );
 }
 
 
-if (isset($_GET['lcd_size']) && is_array($_GET['lcd_size'])) {
-    $lcd_size_values = $_GET['lcd_size'];
-    $lcd_meta = array('relation' => 'OR');
-    foreach ($lcd_size_values as $size) {
-        $lcd_meta[] = array(
-            'key' => 'screen_size_filter', 
-            'value' => $size,
-            'compare' => '='
-        );
-    }
-    $meta_query[] = $lcd_meta;
-}
 if (isset($_GET['brand']) && is_array($_GET['brand'])) {
-    $brand_value = $_GET['brand'];
-    $brand_meta = array('relation' => 'OR');
-    foreach ($brand_value as $brand) {
-        $brand_meta[] = array(
-            'key' => 'brand', 
-            'value' => $brand,
-            'compare' => '='
-        );
-    }
-    $meta_query[] = $brand_meta;
-}
-
-$args = array(
-    'post_type' => 'product',
-    'posts_per_page' => -1,
-    'meta_query' => $meta_query
-);
-
-if (!empty($_GET['category'])) {
-    $args['tax_query'] = array(
-        array(
-            'taxonomy' => 'product_cat',
-            'field'    => 'slug',
-            'terms'    => $_GET['category'],
-        ),
+    $brand_values = array_map('sanitize_text_field', $_GET['brand']);
+    $tax_query[] = array(
+        'taxonomy' => 'product_brand',
+        'field'    => 'slug',
+        'terms'    => $brand_values,
+        'operator' => 'IN',
     );
 }
 
 
+// Screen Size
+if (isset($_GET['screen_size']) && is_array($_GET['screen_size'])) {
+    $lcd_size_values = array_map('sanitize_text_field', $_GET['screen_size']);
+    $tax_query[] = array(
+        'taxonomy' => 'pa_screen-size',
+        'field'    => 'slug',
+        'terms'    => $lcd_size_values,
+        'operator' => 'IN',
+    );
+}
+
+// Category
+if (!empty($_GET['category'])) {
+    $tax_query[] = array(
+        'taxonomy' => 'product_cat',
+        'field'    => 'slug',
+        'terms'    => $_GET['category'],
+    );
+}
+$paged = get_query_var('paged') ? get_query_var('paged') : 1;
+// Final query
+$args = array(
+    'post_type'      => 'product',
+     'posts_per_page' => 12,
+    'paged' => $paged,
+    'meta_query'     => $meta_query,
+
+);
+
+// Only add tax_query if there are filters
+if (!empty($tax_query) && count($tax_query) > 1) {
+    $args['tax_query'] = $tax_query;
+}
+
 $query = new WP_Query($args);
-
-
 
 
 
@@ -190,6 +147,19 @@ if (!empty($_GET['category']) && is_array($_GET['category'])):
 
  </div>
 </div>
+
+<?php
+$products = get_posts(array(
+    'post_type' => 'product',
+    'posts_per_page' => -1,
+    'post_status' => 'publish',
+    'fields' => 'ids',
+));
+
+
+?>
+
+
   <?php if (!empty($Cat_banner)): ?>
 <img class="w-full" src="<?php echo esc_url( $Cat_banner['url'] ) ?>" >
 <?php endif?>
@@ -214,23 +184,33 @@ if (!empty($_GET['category']) && is_array($_GET['category'])):
           <h1 class="text-[18px] text-[#202020] font-semibold" >Filters</h1>
           <img class="closebtn" src="	https://static.priceoye.pk/images/not-available.svg" width="10">
         </div>
-      <div class="filteroption">
-        <div   class="filter_tag flex justify-between down_arrow cursor-pointer">
-          <h1 class="text-[14px] text-[#404040] font-semibold uppercase" >Set Your Price Range</h1>
-          <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
-        </div>
-        <div id="openfilter" class="filter_option hidden mt-3 pb-[2.5rem] border-b border-[#dbdbdb]    border-b border-[#dbdbdb] ">
-          <div class="flex items-center gap-[5px]">
-          <input type="checkbox" name="price[]" value="below-15000" id="check1" <?php if (isset($_GET['price']) && in_array('below-15000', $_GET['price'])) echo 'checked'; ?>>
-          <label for="check1">Below Rs. 15,000</label><br>
-             </div>
-          <input type="checkbox" name="price[]" value="15000-25000" id="check2" <?php if (isset($_GET['price']) && in_array('15000-25000', $_GET['price'])) echo 'checked'; ?>>
-          <label for="check2">Rs. 15,000 - Rs. 25,000</label><br>
+      <?php
+$price_ranges = get_field('price_range', 'option'); 
 
-          <input type="checkbox" name="price[]" value="25000-40000" id="check3" <?php if (isset($_GET['price']) && in_array('25000-40000', $_GET['price'])) echo 'checked'; ?>>
-          <label for="check3">Rs. 25,000 - Rs. 40,000</label><br>
+ ?>
+ <!-- price filter -->
+<div class="filteroption">
+    <div class="filter_tag flex justify-between down_arrow cursor-pointer">
+        <h1 class="text-[14px] text-[#404040] font-semibold uppercase">Set Your Price Range</h1>
+        <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
+    </div>
+    <div id="openfilter" class="filter_option hidden mt-3 pb-[2.5rem] border-b border-[#dbdbdb]">
+        <?php foreach ($price_ranges as  $range):
+        $add_price = $range['add_price']; 
+            $range_label = esc_html($add_price['price']);
+            $range_value = esc_attr($add_price['value']);
+            $input_id = 'price_range_' . $index;
+            $is_checked = (isset($_GET['price']) && in_array($range_value, $_GET['price'])) ? 'checked' : '';
+        ?>
+        <div class="flex items-center gap-[5px]">
+            <input type="checkbox" name="price[]" value="<?php echo $range_value; ?>" id="<?php echo $range_label; ?>" <?php echo $is_checked; ?>>
+            <label for="<?php echo $range_label; ?>"><?php echo $range_label; ?></label>
         </div>
-      </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+
       <!-- POPULAR Filter -->
 <div class="filteroption ">
   <div   class="filter_tag flex justify-between down_arrow cursor-pointer pt-[20px]">
@@ -244,77 +224,113 @@ if (!empty($_GET['category']) && is_array($_GET['category'])):
 </div>
 
 <!-- LCD Size Filter -->
-<div class="filteroption">
-   <div   class="filter_tag flex justify-between down_arrow cursor-pointer pt-[20px]">
-          <h1 class="text-[14px] text-[#404040] font-semibold uppercase" >LCD Size</h1>
-          <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
-        </div>
-    <div class="filter_option mt-3 pb-[2.5rem] border-b border-[#dbdbdb]  hidden">
-  <input type="checkbox" name="lcd_size[]" value="5_inches" id="lcd1" <?php if (isset($_GET['lcd_size']) && in_array('5_inches', $_GET['lcd_size'])) echo 'checked'; ?>>
-  <label for="lcd1">5 inch</label><br>
 
-  <input type="checkbox" name="lcd_size[]" value="6_inches" id="lcd2" <?php if (isset($_GET['lcd_size']) && in_array('6_inches', $_GET['lcd_size'])) echo 'checked'; ?>>
-  <label for="lcd2">6 inch</label><br>
-  </div>
-</div>
+<?php
+$screen_sizes = get_terms(array(
+    'taxonomy'   => 'pa_screen-size',
+    'hide_empty' => false, 
+));
+
+if (!empty($screen_sizes) && !is_wp_error($screen_sizes)) : ?>
+    <div class="filteroption">
+        <div class="filter_tag flex justify-between down_arrow cursor-pointer pt-[20px]">
+            <h1 class="text-[14px] text-[#404040] font-semibold uppercase">Screen Size</h1>
+            <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
+        </div>
+        <div class="filter_option mt-3 pb-[2.5rem] border-b border-[#dbdbdb] hidden">
+            <?php foreach ($screen_sizes as $size) : ?>
+                <div class="screen_filter">
+                    <input 
+                        type="checkbox" 
+                        name="screen_size[]" 
+                        value="<?php echo esc_attr($size->slug); ?>" 
+                        id="<?php echo esc_attr($size->slug); ?>"
+                        <?php if (isset($_GET['screen_size']) && in_array($size->slug, $_GET['screen_size'])) echo 'checked'; ?>
+                    >
+                    <label for="<?php echo esc_attr($size->slug); ?>"><?php echo esc_html($size->name); ?></label>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+<?php endif; ?>
 
 <!-- Brand filter -->
+
+<?php 
+
+// $brands = array();
+
+// foreach ($products as $product_id) {
+//     $brand = get_field('brand', $product_id);
+//     if ($brand && !in_array($brand, $brands)) {
+//         $brands[] = $brand;
+//     }
+// }
+$allbrands = get_terms(array(
+    'taxonomy'   => 'product_brand',
+    'hide_empty' => false, 
+));
+?>
 <div class="filteroption">
-   <div   class="filter_tag flex justify-between down_arrow cursor-pointer pt-[20px]">
-          <h1 class="text-[14px] text-[#404040] font-semibold uppercase" >Brand</h1>
-          <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
-        </div>
-    <div class="filter_option mt-3 pb-[2.5rem] border-b border-[#dbdbdb] hidden ">
-  <input type="checkbox" name="brand[]" value="Samsung" id="brand1" <?php if (isset($_GET['brand']) && in_array('Samsung', $_GET['brand'])) echo 'checked'; ?>>
-  <label for="brand1">Samsung</label><br>
-<input type="checkbox" name="brand[]" value="Iphone" id="brand2" <?php if (isset($_GET['brand']) && in_array('Iphone', $_GET['brand'])) echo 'checked'; ?>>
-  <label for="brand2">Iphone</label><br>
-  <input type="checkbox" name="brand[]" value="Lenovo" id="brand3" <?php if (isset($_GET['brand']) && in_array('Lenovo', $_GET['brand'])) echo 'checked'; ?>>
-  <label for="brand3">Lenovo</label><br>
-   <input type="checkbox" name="brand[]" value="Redmi" id="brand4" <?php if (isset($_GET['brand']) && in_array('Redmi', $_GET['brand'])) echo 'checked'; ?>>
-  <label for="brand4">Redmi</label><br>
-   <input type="checkbox" name="brand[]" value="Xiaomi" id="brand5" <?php if (isset($_GET['brand']) && in_array('Xiaomi', $_GET['brand'])) echo 'checked'; ?>>
-  <label for="brand5">Xiaomi</label><br>
-   <input type="checkbox" name="brand[]" value="Dell" id="brand6" <?php if (isset($_GET['brand']) && in_array('Dell', $_GET['brand'])) echo 'checked'; ?>>
-  <label for="brand6">Dell</label><br>
-    <input type="checkbox" name="brand[]" value="Joyroom" id="brand7" <?php if (isset($_GET['brand']) && in_array('Joyroom', $_GET['brand'])) echo 'checked'; ?>>
-  <label for="brand7">Joyroom</label><br>
-    <input type="checkbox" name="brand[]" value="Faster" id="brand8" <?php if (isset($_GET['brand']) && in_array('Faster', $_GET['brand'])) echo 'checked'; ?>>
-  <label for="brand8">Faster</label><br>
-    <input type="checkbox" name="brand[]" value="Baseus" id="brand9" <?php if (isset($_GET['brand']) && in_array('Baseus', $_GET['brand'])) echo 'checked'; ?>>
-  <label for="brand9">Baseus</label><br>
-    <input type="checkbox" name="brand[]" value="Sveston" id="Sveston" <?php if (isset($_GET['brand']) && in_array('Sveston', $_GET['brand'])) echo 'checked'; ?>>
-  <label for="Sveston">Sveston</label><br>
-    <input type="checkbox" name="brand[]" value="Zero" id="Zero" <?php if (isset($_GET['brand']) && in_array('Zero', $_GET['brand'])) echo 'checked'; ?>>
-  <label for="Zero">Zero</label><br>
-    <input type="checkbox" name="brand[]" value="Ssorted" id="Ssorted" <?php if (isset($_GET['brand']) && in_array('Ssorted', $_GET['brand'])) echo 'checked'; ?>>
-  <label for="Ssorted">Ssorted</label><br>
-    <input type="checkbox" name="brand[]" value="Dany" id="Dany" <?php if (isset($_GET['brand']) && in_array('Dany', $_GET['brand'])) echo 'checked'; ?>>
-  <label for="Dany">Dany</label><br>
-  </div>
+   <div class="filter_tag flex justify-between down_arrow cursor-pointer pt-[20px]">
+      <h1 class="text-[14px] text-[#404040] font-semibold uppercase">Brand</h1>
+      <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
+   </div>
+   <div class="filter_option mt-3 pb-[2.5rem] border-b border-[#dbdbdb] hidden">
+      <?php if (!empty($allbrands) && !is_wp_error($allbrands)): ?>
+         <?php foreach ($allbrands as $brandeach): ?>
+            <div class="brand_filter">
+               <input 
+                 type="checkbox" 
+                 name="brand[]" 
+                 value="<?php echo esc_attr($brandeach->slug); ?>" 
+                 id="brand_<?php echo esc_attr($brandeach->slug); ?>"
+                 <?php if (isset($_GET['brand']) && in_array($brandeach->slug, $_GET['brand'])) echo 'checked'; ?>
+               >
+               <label class="capitalize" for="brand_<?php echo esc_attr($brandeach->slug); ?>">
+                 <?php echo esc_html($brandeach->name); ?>
+               </label>
+               <br>
+            </div>
+         <?php endforeach; ?>
+      <?php else: ?>
+         <p>No brands found.</p>
+      <?php endif; ?>
+   </div>
 </div>
 
+
+
 <!-- category -->
+   <?php
+$parent = get_term_by('slug', 'topcategory', 'product_cat');
+$children = get_terms('product_cat', array(
+    
+    'parent' => $parent->term_id,
+    'hide_empty' => false,
+));
+?>
+
+
 <div class="filteroption">
    <div   class="filter_tag flex justify-between down_arrow cursor-pointer pt-[20px]">
           <h1 class="text-[14px] text-[#404040] font-semibold uppercase" >Category</h1>
           <img class="shop_dropdown" src="https://static.priceoye.pk/images/caret.svg">
         </div>
     <div class="filter_option mt-3 pb-[2.5rem] hidden">
-  <input type="checkbox" name="category[]" value="mobiles" id="category1" <?php if (isset($_GET['category']) && in_array('mobiles', $_GET['category'])) echo 'checked'; ?>>
-  <label for="category1">Mobile</label><br>
-  <input type="checkbox" name="category[]" value="tablets" id="category2" <?php if (isset($_GET['category']) && in_array('tablets', $_GET['category'])) echo 'checked'; ?>>
-  <label for="category2">Tablet</label><br>
-  <input type="checkbox" name="category[]" value="laptops" id="category3" <?php if (isset($_GET['category']) && in_array('laptops', $_GET['category'])) echo 'checked'; ?>>
-  <label for="category3">Laptop</label><br>
-  <input type="checkbox" name="category[]" value="wireless-airbuds" id="category4" <?php if (isset($_GET['category']) && in_array('wireless-airbuds', $_GET['category'])) echo 'checked'; ?>>
-  <label for="category4">AirBuds</label><br>
-  <input type="checkbox" name="category[]" value="smart-watches" id="category5" <?php if (isset($_GET['category']) && in_array('smart-watches', $_GET['category'])) echo 'checked'; ?>>
-  <label for="category5">Watches</label><br>
-  <input type="checkbox" name="category[]" value="bluetooth-speaker" id="category6" <?php if (isset($_GET['category']) && in_array('bluetooth-speaker', $_GET['category'])) echo 'checked'; ?>>
-  <label for="category6">Speaker</label><br>
-    <input type="checkbox" name="category[]" value="power-banks" id="category7" <?php if (isset($_GET['category']) && in_array('power-banks', $_GET['category'])) echo 'checked'; ?>>
-  <label for="category7">Power Banks</label><br>
+       <?php
+ foreach($children as $child):
+ $thumbnail_id = get_term_meta($child->term_id, 'thumbnail_id', true);
+ 
+?>
+   <div class="categoryfilter">
+        
+  <input type="checkbox" name="category[]" value="<?php echo esc_html($child->slug); ?>" id="<?php echo esc_html($child->slug); ?>" <?php if (isset($_GET['category']) && in_array($child->slug, $_GET['category'])) echo 'checked'; ?>>
+  <label for="<?php echo esc_html($child->slug); ?>"><?php echo esc_html($child->name); ?></label><br>
+  </div>
+  
+<?php endforeach?>
+   
   </div>
 </div>
     </form>
@@ -366,6 +382,17 @@ if ( $regular_price > 0 && $sale_price > 0 && $sale_price < $regular_price ) {
         </a>
       </div>
     <?php endwhile; wp_reset_postdata(); ?>
+     <!-- Pagination here -->
+  <div class="pagination items-center mt-8 flex justify-end col-span-4">
+    <?php
+    echo paginate_links(array(
+        'total'   => $query->max_num_pages,
+        'current' => $paged,
+        'prev_text' => __('« Prev'),
+        'next_text' => __('Next »'),
+    ));
+    ?>
+  </div>
   </div>
    <?php else : ?>
   <div class="container"> <h1 class="text-[32px] mt-[50px] text-center" >No products available</h1></div>

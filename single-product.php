@@ -250,7 +250,7 @@ document.getElementById('add-to-cart-button').addEventListener('click', function
             alert(response.error || 'Something went wrong!');
         } else {
             document.dispatchEvent(new CustomEvent('added_to_cart', { detail: response }));
-            alert('Item added to cart!');
+         
         }
     })
     .catch(error => {
